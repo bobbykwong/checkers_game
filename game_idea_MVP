@@ -1,0 +1,56 @@
+/////////////////////Game Board
+
+1. 8 X 8 board.
+2. Create board using DOM manipulation.
+3. Pieces can only move on dark grids.
+	a) Put all dark grids under same class
+	b) Create dark grids using odd and even conditionals
+4. Create virtual board to keep track of movement of pieces.
+	a) Pieces can only move on dark grid. Arrange all dark grids in array form from n = [0, 1, 2, 3] along the 8 rows on the board.
+	b) Use 0 for empty grid, 1 for player 1 grid and 2 for player 2 grid to detect where each piece is.
+	c) When piece moves into empty grid, +1/2 on empty grid and -1/2 on initial grid.
+
+
+/////////////////////Pieces
+
+1. Create 2 objects, one for each player
+	a) Object shows how many pieces each player has remaining on the board
+2. Create pieces using DOM Manipulation.
+	a) Separate opponent pieces through classes.
+3. Add event listener for each piece
+4. Pieces can only move when it is their respective player's turn
+
+
+
+///////////////////////Movement
+
+1. Each piece can only move 1 step forward diagonally.
+2. When one piece moves forward
+3. Logic when no obstruction (Player 1)
+	a) piece can only move to the next row on either n or n+1.
+	b) if piece on n = 0, only can move to next row on position n.
+	c) if piece on n = 3, only can move to next row on position n-1.
+4. Logic with Obstruction (Player 1)
+	a) When friendly piece on row + 1, n or n+1 position, selected piece cannot move forward onto that position.
+	b) When opponent piece on row + 1, n or n-1 position, selected piece moves to row + 2
+		i) if opponent piece on n position, selected piece moves to row + 2, n+1 position.
+		ii) if opponent piece on n-1 position, selected piece moves to row + 2, n-1 position.
+		iii) if n+1 or n-1 position does not exist, selected piece cannot move forward.
+	c) When opponent piece on row + 1, n or n-1 position, but friendly or opponent piece on (i or ii), selected piece cannot move
+		i) if opponent piece on n position, 3rd party on n+1
+		ii) if opponent piece on n-1 position, 3rd party on n-1 position.
+	d)once piece moves to the end of the board, cannot move. (see further docs)
+5. When opponent piece is captured, player object property piece--.
+6. CSS
+	a) Movement with no obstruction
+		i) initial grid turns from player piece to empty grid
+	  ii) new grid turns from empty grid to player grid.
+	b) Movement with when capture
+		i) initial grid truns from player piece to empy grid
+		ii) new grid turns from empty grid to player grid.
+		iii) Opponent grid turns from Opponent piece to empty grid.
+
+
+
+/////////////////////////Win Condition
+When property piece in object of either player becomes 0.

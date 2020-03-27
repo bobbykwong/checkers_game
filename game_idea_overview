@@ -1,0 +1,41 @@
+Checkers
+
+Goals
+1. Practice CSS skills and attempt implementation of bootstrap.
+2. Practice DOM manipulation
+3. Devise logic for element and its restriction on movement..
+
+Minimum Viable Product
+1. Board that shows basic images of each checkers piece.
+2. Pieces able to move to new grid on the board using dom. Each piece is restricted on movement. Can only move forwards. Movement restriction
+	a)	Remove element from previous position
+	b)	Add element to new position
+3. 2 players can play the game
+4. programme able to recognise when 1 piece gets captured by an opponent piece.
+5. programme recognise win condition when all of the opponent pieces are captured.
+
+
+
+Further
+1. Let players enter name, show who's turn, and press start game.
+2. When a piece reaches the end of the board, it becomes a "king" piece which allows it to move forwards and backwards.
+3. Chess piece able to recognise another chess piece that is in the way of it. Obstacle restriction
+4. Chess piece able to recognise that it cannot move out of the board. Board restriction
+
+
+Further (TARGET)
+1. Work on the visuals of the game
+2. Ensure rows and columns of grid look appealing using flexbox.
+3. Try some bootstrap for some elements.
+4. Board show possible moves for pieces.
+5. Able to play time chess
+
+
+Ambitious 1
+1. CSS: Input animations rather than mere images.
+2. Game able to recognise the scope of possible moves and make a random move.
+3. When under threat, game able to play defensively.
+
+Ambitious 2
+1. Programme able to play offensively with increasing levels of difficulty
+	a) Not very sure how this is supposed to work. Will think about it when I reach this stage (if I even do).
