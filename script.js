@@ -8,7 +8,7 @@ let newPosition = [];
 const movePiece = (event) => {
     console.log(event.target.className);
 
-    // if click is first click to select piece
+    // Determines first click to select piece
     if (selectPiecePosition.length === 0) {
         //Change border colour of selected piece
 
@@ -17,7 +17,7 @@ const movePiece = (event) => {
     }
 
 
-    // If click is second click to determine position movement
+    // Determines second click to move piece to new position
     else if (selectPiecePosition.length === 3) {
         selectPiece(event.target.className);
 
@@ -30,22 +30,16 @@ const movePiece = (event) => {
          // Choose new position to move to.
 
 
-         // Else If no obstruction
+         // Else If no obstruction,
         moveNoObstruction();
 
-         // Choose new position to move to.
-
-
-         // Adjust virtual board to reflect new position
-
-
          // display new Board
-         displayPieces();
+        displayPieces();
 
 
-         // Reset selectPiecePosition and New Position for next move.
-         selectPiecePosition = [];
-         newPosition = [];
+        // Reset selectPiecePosition and New Position for next move.
+        selectPiecePosition = [];
+        newPosition = [];
 
     }
 
@@ -102,8 +96,17 @@ const moveNoObstruction = () => {
     // Player 1
     if (selectPiecePosition[0] === 'player1') {
 
+        // If new position moves backwards, illegal move until become king
+        if((newPosition[0] - selectPiecePosition[1]) < 0){
+            console.log(`Illegal move. Cannot move backwards until Piece becomes king`);
+        }
+        // If new position more than 1 row from previous position, illegal move
+        else if ( Math.abs(newPosition[0] - selectPiecePosition[1]) > 1 ){
+            console.log(`Illegal move. Cannot move more than 1 row`);
+        }
+
         // If row where select piece is on is even
-        if ( selectPiecePosition[1] %2 === 0 ) {
+        else if ( selectPiecePosition[1] %2 === 0 ) {
             // if Row even and last box, only one legal move
             if(selectPiecePosition[2] === 7){
                 if (newPosition[1] === 6) {
@@ -156,8 +159,18 @@ const moveNoObstruction = () => {
 
     // Player 2 movement
     else if (selectPiecePosition[0] === 'player2') {
+
+        // If new position moves backwards, illegal move until become king
+        if((newPosition[0] - selectPiecePosition[1]) > 0){
+            console.log(`Illegal move. Cannot move backwards until Piece becomes king`);
+        }
+        // If new position more than 1 row from previous position, illegal move
+        else if ( Math.abs(newPosition[0] - selectPiecePosition[1]) > 1 ){
+            console.log(`Illegal move. Cannot move more than 1 row`);
+        }
+
         // If row where select piece is on is even
-        if ( selectPiecePosition[1] %2 === 0 ) {
+        else if ( selectPiecePosition[1] %2 === 0 ) {
             // if Row even and last box, only one legal move
             if(selectPiecePosition[2] === 7){
                 if (newPosition[1] === 6) {
