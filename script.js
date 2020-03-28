@@ -1,8 +1,116 @@
 
-/////////////////////////////////////////build click handler function when piece is clicked.
-const clickHandler = (event) =>{
+////////////////////////////////////////////////////Movement
+
+// Variable to store selected piece position
+let selectPiecePosition = [];
+let newPosition = [];
+
+const movePiece = (event) => {
     console.log(event.target.className);
+
+    // if click is first click to select piece
+    if (selectPiecePosition.length === 0) {
+        //Change border colour of selected piece
+
+        // store piece identity in variable
+        selectPiece(event.target.className);
+    }
+
+
+    // If click is second click to determine position movement
+    else if (selectPiecePosition.length === 3) {
+        selectPiece(event.target.className);
+
+        // Store new position in variable
+        storeNewPosition(event.target.className);
+
+        // If obstruction,
+
+
+         // Choose new position to move to.
+
+
+         // Else If no obstruction
+        moveNoObstruction(event.target.className);
+
+         // Choose new position to move to.
+
+
+         // Adjust virtual board to reflect new position
+
+
+         // display new Board
+    }
+
+
+
+
 }
+
+// Store position of selected piece into variable
+const selectPiece = (piece) => {
+    // Determine Player
+    if (piece.split(' ')[3] === 'player1'){
+        selectPiecePosition.push('player1');
+
+        // Determine row
+        selectPiecePosition.push(piece.split(' ')[1].split('')[3]);
+
+        // Determine column
+        selectPiecePosition.push(piece.split(' ')[2].split('')[3]);
+    }
+    else if(piece.split(' ')[3] === 'player2'){
+        selectPiecePosition.push('player2');
+
+        // Determine row
+        selectPiecePosition.push(piece.split(' ')[1].split('')[3]);
+
+        // Determine column
+        selectPiecePosition.push(piece.split(' ')[2].split('')[3]);
+    }
+}
+
+// Store position of new position into variable
+const storeNewPosition = (piece) => {
+
+    // Determine if move legal
+    if (piece.split(' ')[3] === `player1` || piece.split(' ')[3] === `player2` || piece.split(' ')[0] === `light`){
+        console.log(`move not allowed`);
+    }
+    else{
+
+        // Determine row
+        newPosition.push(piece.split(' ')[1].split('')[3]);
+
+        // Determine column
+        newPosition.push(piece.split(' ')[2].split('')[3]);
+    }
+}
+
+
+// Logic for movement without obstruction
+const moveNoObstruction = (newPosition) => {
+
+    // Determine if Player 1 or Player 2.
+
+    if (selectPiecePosition[0] === 'player1') {
+
+        // If row where select piece is on is even
+        if ( selectPiecePosition[1] %2 === 0 ) {
+
+        }
+
+
+    }
+
+
+    // Player 2 movement
+}
+
+
+
+
+
 
 
 /////////////////////////Create Board
@@ -46,7 +154,7 @@ for (var i = 0; i < 8; i++) {
         }
 
         buildBox.textContent = ""
-        buildBox.addEventListener('click', clickHandler)
+        buildBox.addEventListener('click', movePiece)
         buildRow.appendChild(buildBox);
     }
     // colCounterOdd = 1;
@@ -104,4 +212,4 @@ const displayPieces = () =>{
     }
 }
 
-displayPieces();
+displayPieces()
