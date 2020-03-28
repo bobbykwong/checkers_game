@@ -31,7 +31,7 @@ const movePiece = (event) => {
 
 
          // Else If no obstruction
-        moveNoObstruction(event.target.className);
+        moveNoObstruction();
 
          // Choose new position to move to.
 
@@ -40,6 +40,13 @@ const movePiece = (event) => {
 
 
          // display new Board
+         displayPieces();
+
+
+         // Reset selectPiecePosition and New Position for next move.
+         selectPiecePosition = [];
+         newPosition = [];
+
     }
 
 
@@ -75,7 +82,7 @@ const storeNewPosition = (piece) => {
 
     // Determine if move legal
     if (piece.split(' ')[3] === `player1` || piece.split(' ')[3] === `player2` || piece.split(' ')[0] === `light`){
-        console.log(`move not allowed`);
+        console.log(`Illegal move. You cannot move to an occupied position`);
     }
     else{
 
@@ -89,24 +96,117 @@ const storeNewPosition = (piece) => {
 
 
 // Logic for movement without obstruction
-const moveNoObstruction = (newPosition) => {
+const moveNoObstruction = () => {
 
     // Determine if Player 1 or Player 2.
-
+    // Player 1
     if (selectPiecePosition[0] === 'player1') {
 
         // If row where select piece is on is even
         if ( selectPiecePosition[1] %2 === 0 ) {
+            // if Row even and last box, only one legal move
+            if(selectPiecePosition[2] === 7){
+                if (newPosition[1] === 6) {
+                    // Piece move to new position
+                    board[newPosition[0]][6] = 1;
 
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+                }
+            }
+            else if(selectPiecePosition[2] % 2 !=0 ){
+                // Piece move to new position
+                board[newPosition[0]][newPosition[1]] = 1;
+
+                // initial position becomes empty grid
+                board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+            }
+            // If new position is light grid, illegal move
+            else if(selectPiecePosition[2] % 2 ===0 ){
+                console.log(`Illegal move, light grid`);
+            }
         }
 
+        // If row where select piece is on is odd
+        else if ( selectPiecePosition[1] %2 != 0 ) {
+            // if Row odd and first box, only one legal move
+            if(selectPiecePosition[2] === 0){
+                if (newPosition[1] === 1) {
+                    // Piece move to new position
+                    board[newPosition[0]][1] = 1;
 
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+                }
+            }
+            else if(selectPiecePosition[2] % 2 ===0 ){
+                // Piece move to new position
+                board[newPosition[0]][newPosition[1]] = 1;
+
+                // initial position becomes empty grid
+                board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+            }
+            // If new position is light grid, illegal move
+            else if(selectPiecePosition[2] % 2 !=0 ){
+                console.log(`Illegal move, light grid`);
+            }
+        }
     }
 
 
     // Player 2 movement
-}
+    else if (selectPiecePosition[0] === 'player2') {
+        // If row where select piece is on is even
+        if ( selectPiecePosition[1] %2 === 0 ) {
+            // if Row even and last box, only one legal move
+            if(selectPiecePosition[2] === 7){
+                if (newPosition[1] === 6) {
+                    // Piece move to new position
+                    board[newPosition[0]][6] = 2;
 
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+                }
+            }
+            else if(selectPiecePosition[2] % 2 !=0 ){
+                // Piece move to new position
+                board[newPosition[0]][newPosition[1]] = 2;
+
+                // initial position becomes empty grid
+                board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+            }
+            // If new position is light grid, illegal move
+            else if(selectPiecePosition[2] % 2 ===0 ){
+                console.log(`Illegal move, light grid`);
+            }
+        }
+
+        // If row where select piece is on is odd
+        else if ( selectPiecePosition[1] %2 != 0 ) {
+            // if Row odd and first box, only one legal move
+            if(selectPiecePosition[2] === 0){
+                if (newPosition[1] === 1) {
+                    // Piece move to new position
+                    board[newPosition[0]][1] = 2;
+
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+                }
+            }
+            else if(selectPiecePosition[2] % 2 ===0 ){
+                // Piece move to new position
+                board[newPosition[0]][newPosition[1]] = 2;
+
+                // initial position becomes empty grid
+                board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+            }
+            // If new position is light grid, illegal move
+            else if(selectPiecePosition[2] % 2 !=0 ){
+                console.log(`Illegal move, light grid`);
+            }
+        }
+    }
+}
 
 
 
@@ -194,20 +294,28 @@ for(var b=0; b<8; b++){
 const displayPieces = () =>{
     // debugger;
     for (var d=0; d<8; d++){
-        let colCounter = 0;
         for (var e=0; e<8; e++){
             // Specify Grid
             const grid = document.getElementsByClassName(`row${d} col${e}`)[0];
-
-            // Manipulate Grid to show piece or remain as empty grid
-            if(board[d][e] === 1){
-                grid.classList.add('player1')
+            // Loop may run over light grids which are undefined based on above classname selection
+            if (grid != undefined) {
+                // Manipulate Grid to show piece or remain as empty grid
+                if(board[d][e] === 1){
+                    grid.classList.add('player1');
+                }
+                else if(board[d][e] === 2){
+                    grid.classList.add('player2');
+                }
+                // Remove piece from initial position after movement
+                else if(board[d][e] === 0 && ( grid.classList.contains('player1') || grid.classList.contains('player2')) ){
+                    if(grid.classList.contains('player1')){
+                        grid.classList.remove('player1');
+                    }
+                    else if(grid.classList.contains('player2')){
+                        grid.classList.remove('player2');
+                    }
+                }
             }
-            else if(board[d][e] === 2){
-                grid.classList.add('player2')
-            }
-
-            colCounter++;
         }
     }
 }
