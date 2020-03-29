@@ -24,14 +24,16 @@ const movePiece = (event) => {
         // Store new position in variable
         storeNewPosition(event.target.className);
 
-        // If obstruction,
+        moveNoObstruction();
 
+        // If obstruction,
+        moveWithCapture();
 
          // Choose new position to move to.
 
 
+
          // Else If no obstruction,
-        moveNoObstruction();
 
          // display new Board
         displayPieces();
@@ -55,19 +57,19 @@ const selectPiece = (piece) => {
         selectPiecePosition.push('player1');
 
         // Determine row
-        selectPiecePosition.push(piece.split(' ')[1].split('')[3]);
+        selectPiecePosition.push(parseInt(piece.split(' ')[1].split('')[3]));
 
         // Determine column
-        selectPiecePosition.push(piece.split(' ')[2].split('')[3]);
+        selectPiecePosition.push(parseInt(piece.split(' ')[2].split('')[3]));
     }
     else if(piece.split(' ')[3] === 'player2'){
         selectPiecePosition.push('player2');
 
         // Determine row
-        selectPiecePosition.push(piece.split(' ')[1].split('')[3]);
+        selectPiecePosition.push(parseInt(piece.split(' ')[1].split('')[3]));
 
         // Determine column
-        selectPiecePosition.push(piece.split(' ')[2].split('')[3]);
+        selectPiecePosition.push(parseInt(piece.split(' ')[2].split('')[3]));
     }
 }
 
@@ -81,10 +83,10 @@ const storeNewPosition = (piece) => {
     else{
 
         // Determine row
-        newPosition.push(piece.split(' ')[1].split('')[3]);
+        newPosition.push(parseInt(piece.split(' ')[1].split('')[3]));
 
         // Determine column
-        newPosition.push(piece.split(' ')[2].split('')[3]);
+        newPosition.push(parseInt(piece.split(' ')[2].split('')[3]));
     }
 }
 
@@ -100,6 +102,11 @@ const moveNoObstruction = () => {
         if((newPosition[0] - selectPiecePosition[1]) < 0){
             console.log(`Illegal move. Cannot move backwards until Piece becomes king`);
         }
+        // If new position more than 1 row, but movement for capture of opponent piece, return and execute moveWithCapture()
+        else if ( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) && (selectPiecePosition[2] + 2 === newPosition[1])) ) || ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ) {
+            console.log('execute movement with capture');
+        }
+
         // If new position more than 1 row from previous position, illegal move
         else if ( Math.abs(newPosition[0] - selectPiecePosition[1]) > 1 ){
             console.log(`Illegal move. Cannot move more than 1 row`);
@@ -164,6 +171,11 @@ const moveNoObstruction = () => {
         if((newPosition[0] - selectPiecePosition[1]) > 0){
             console.log(`Illegal move. Cannot move backwards until Piece becomes king`);
         }
+        // If new position more than 1 row, but movement for capture of opponent piece, return and execute moveWithCapture()
+        else if( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) && (selectPiecePosition[2] + 2 === newPosition[1]) ) || ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+            console.log('execute movement with capture');
+        }
+
         // If new position more than 1 row from previous position, illegal move
         else if ( Math.abs(newPosition[0] - selectPiecePosition[1]) > 1 ){
             console.log(`Illegal move. Cannot move more than 1 row`);
@@ -221,6 +233,230 @@ const moveNoObstruction = () => {
     }
 }
 
+
+
+const moveWithCapture = () => {
+    // Determine if player 1 or player 2
+    // Player 1
+    if (selectPiecePosition[0] === 'player1') {
+        // If new position moves backwards, illegal move until become king
+        if((newPosition[0] - selectPiecePosition[1]) < 0){
+            console.log(`Illegal move. Cannot move backwards until Piece becomes king`);
+        }
+        // If new position more than 1 row from previous position, illegal move
+        else if ( Math.abs(newPosition[0] - selectPiecePosition[1]) > 2 ){
+            console.log(`Illegal move. Can only move into grid after opponent grid `);
+        }
+
+        // If row is even
+        else if(selectPiecePosition[1] %2 != 0){
+            // If row is even and first box, only one legal move
+            if( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) && (selectPiecePosition[2] === 1) ){
+                if(newPosition[1] === 3){
+                    // Piece move to new position
+                    board[newPosition[0]][newPosition[1]] = 1;
+
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                    // captured position becomes empty grid
+                    board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+                }
+            }
+            // If row is even and last box, only one legal move
+            else if( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) && (selectPiecePosition[2] === 7) ){
+                if(newPosition[1] === 5){
+                    // Piece move to new position
+                    board[newPosition[0]][newPosition[1]] = 1;
+
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                    // captured position becomes empty grid
+                    board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+                }
+            }
+            else if ( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) && (selectPiecePosition[2] + 2 === newPosition[1])) ) || ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+                // Piece move to new position
+                board[newPosition[0]][newPosition[1]] = 1;
+
+                // initial position becomes empty grid
+                board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                // captured position becomes empty grid
+                if (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) {
+                    board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+                }
+                else if (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2){
+                    board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+                }
+            }
+            else{
+                console.log(`Illegal move`);
+            }
+        }
+
+        // If row is odd
+        else if(selectPiecePosition[1] %2 === 0){
+            // If row is odd and first box, only one legal move
+            if( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) && (selectPiecePosition[2] === 0) ){
+                if(newPosition[1] === 2){
+                    // Piece move to new position
+                    board[newPosition[0]][newPosition[1]] = 1;
+
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                    // captured position becomes empty grid
+                    board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+                }
+            }
+            // If row is odd and last box, only one legal move
+            else if( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) && (selectPiecePosition[2] === 6) ){
+                if(newPosition[1] === 4){
+                    // Piece move to new position
+                    board[newPosition[0]][newPosition[1]] = 1;
+
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                    // captured position becomes empty grid
+                    board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+                }
+            }
+            else if ( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) && (selectPiecePosition[2] + 2 === newPosition[1])) ) || ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+                // Piece move to new position
+                board[newPosition[0]][newPosition[1]] = 1;
+
+                // initial position becomes empty grid
+                board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                // captured position becomes empty grid
+                if (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) {
+                    board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+                }
+                else if (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2){
+                    board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+                }
+            }
+            else{
+                console.log(`Illegal move`);
+            }
+        }
+
+
+    }
+
+    // Player 2
+    else if (selectPiecePosition[0] === 'player2'){
+        // If new position moves backwards, illegal move until become king
+        if((newPosition[0] - selectPiecePosition[1]) > 0){
+            console.log(`Illegal move. Cannot move backwards until Piece becomes king`);
+        }
+        // If new position more than 1 row from previous position, illegal move
+        else if ( Math.abs(newPosition[0] - selectPiecePosition[1]) > 2 ){
+            console.log(`Illegal move. Can only move into grid just after opponent grid `);
+        }
+
+        // If row is even
+        else if(selectPiecePosition[1] %2 === 0){
+            // If row is even and first box, only one legal move
+            if( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) && (selectPiecePosition[2] === 1) ){
+                if(newPosition[1] === 3){
+                    // Piece move to new position
+                    board[newPosition[0]][newPosition[1]] = 2;
+
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                    // captured position becomes empty grid
+                    board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
+                }
+            }
+            // If row is even and last box, only one legal move
+            else if( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) && (selectPiecePosition[2] === 7) ){
+                if(newPosition[1] === 5){
+                    // Piece move to new position
+                    board[newPosition[0]][newPosition[1]] = 2;
+
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                    // captured position becomes empty grid
+                    board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
+                }
+            }
+            else if ( ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) && (selectPiecePosition[2] + 2 === newPosition[1])) ) || ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+                // Piece move to new position
+                board[newPosition[0]][newPosition[1]] = 2;
+
+                // initial position becomes empty grid
+                board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                // captured position becomes empty grid
+                if (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) {
+                    board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
+                }
+                else if (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1){
+                    board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
+                }
+            }
+            else{
+                console.log(`Illegal move`);
+            }
+        }
+
+        // If row is odd
+        else if(selectPiecePosition[1] %2 === 0){
+            // If row is odd and first box, only one legal move
+            if( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) && (selectPiecePosition[2] === 0) ){
+                if(newPosition[1] === 2){
+                    // Piece move to new position
+                    board[newPosition[0]][newPosition[1]] = 2;
+
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                    // captured position becomes empty grid
+                    board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
+                }
+            }
+            // If row is odd and last box, only one legal move
+            else if( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) && (selectPiecePosition[2] === 6) ){
+                if(newPosition[1] === 4){
+                    // Piece move to new position
+                    board[newPosition[0]][newPosition[1]] = 2;
+
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                    // captured position becomes empty grid
+                    board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
+                }
+            }
+            else if ( ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) && (selectPiecePosition[2] + 2 === newPosition[1])) ) || ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+                // Piece move to new position
+                board[newPosition[0]][newPosition[1]] = 2;
+
+                // initial position becomes empty grid
+                board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                // captured position becomes empty grid
+                if (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) {
+                    board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
+                }
+                else if (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1){
+                    board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
+                }
+            }
+            else{
+                console.log(`Illegal move`);
+            }
+        }
+    }
+
+
+}
 
 
 
