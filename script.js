@@ -1,9 +1,58 @@
 
-////////////////////////////////////////////////////Movement
 
-// Variable to store selected piece position
+///////////////////////////////////////Start Game
+
+const addNames = (event) => {
+    // Get Player name
+    playerOneName = document.querySelector('.name-one').value;
+    playerTwoName = document.querySelector('.name-two').value;
+
+    // Delete names from input
+    document.querySelector('.name-one').value = "";
+    document.querySelector('.name-two').value = "";
+}
+
+const startGame = (event) => {
+    // hide start attributes
+    const startAttributes = document.querySelector('.start-attributes');
+    startAttributes.classList.add('hide');
+
+    // Show Player turn
+    const main = document.querySelector('main');
+    const playerDisplay = document.createElement('div');
+    playerDisplay.className = 'player-display';
+    playerDisplay.textContent = `${playerOneName} turn`;
+    main.appendChild(playerDisplay);
+
+
+    // Create board on DOM
+    createBoard();
+
+    // Create virtual board tp keep track of pieces.
+    createVirtualBoard();
+
+    // Display pieces on board
+    displayPieces();
+}
+
+const startButton = document.querySelector('.start-game');
+startButton.addEventListener('click', startGame);
+
+const submitNames = document.querySelector('.submit-name');
+submitNames.addEventListener('click', addNames);
+
+
+// Variable to store selected piece position and player turn
 let selectPiecePosition = [];
 let newPosition = [];
+let playerTurn = true;
+let playerOneName = "";
+let playerTwoName = "";
+let playerDisplayName = "";
+let board = [];
+
+
+//////////////////////////////////////Controller for game play
 
 const movePiece = (event) => {
     console.log(event.target.className);
@@ -40,84 +89,93 @@ const movePiece = (event) => {
         selectPiecePosition = [];
         newPosition = [];
 
+        // change player
+        changePlayer();
+
     }
 }
 
 
-/////////////////////////Create Board
+/////////////////////////////////////////////////Create Board
 
-const main = document.querySelector('main');
-const buildBoard = document.createElement('div');
-buildBoard.className = 'board';
-main.appendChild(buildBoard);
+const createBoard = () => {
+    const main = document.querySelector('main');
+    const buildBoard = document.createElement('div');
+    buildBoard.className = 'board';
+    main.appendChild(buildBoard);
 
-for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < 8; i++) {
 
-    const buildRow = document.createElement('div');
+        const buildRow = document.createElement('div');
 
-    buildRow.className = `length row${i}`;
+        buildRow.className = `length row${i}`;
 
-    buildBoard.appendChild(buildRow);
+        buildBoard.appendChild(buildRow);
 
-    // let colCounterOdd = 1;
-    // let colCounterEven = 0;
-    for (var a = 0; a < 8; a++) {
+        // let colCounterOdd = 1;
+        // let colCounterEven = 0;
+        for (var a = 0; a < 8; a++) {
 
-        const buildBox = document.createElement('div');
+            const buildBox = document.createElement('div');
 
-        // console.log("colCounter is " + colCounter);
+            // console.log("colCounter is " + colCounter);
 
-        if ( (i%2===0) && (a%2 !== 0) ) {
-            buildBox.className = `dark row${i} col${a}`;
-            // colCounterOdd++;
+            if ( (i%2===0) && (a%2 !== 0) ) {
+                buildBox.className = `dark row${i} col${a}`;
+                // colCounterOdd++;
+            }
+            else if( (i%2===0) && (a%2===0) ){
+                //light grids are non-plyable grids.
+                // Classname only serves for styling purposes, therefore numbering not required.
+                buildBox.className = 'light';
+            }
+            else if( (i%2 !== 0) && (a%2===0) ){
+                buildBox.className = `dark row${i} col${a}`
+                // colCounterEven++;
+            }
+            else if( (i%2 !== 0) && (a%2 !== 0) ){
+                buildBox.className = 'light';
+            }
+
+            buildBox.textContent = ""
+            buildBox.addEventListener('click', movePiece)
+            buildRow.appendChild(buildBox);
         }
-        else if( (i%2===0) && (a%2===0) ){
-            //light grids are non-plyable grids.
-            // Classname only serves for styling purposes, therefore numbering not required.
-            buildBox.className = 'light';
-        }
-        else if( (i%2 !== 0) && (a%2===0) ){
-            buildBox.className = `dark row${i} col${a}`
-            // colCounterEven++;
-        }
-        else if( (i%2 !== 0) && (a%2 !== 0) ){
-            buildBox.className = 'light';
-        }
+        // colCounterOdd = 1;
+        // colCounterEven = 0;
+    };
+}
 
-        buildBox.textContent = ""
-        buildBox.addEventListener('click', movePiece)
-        buildRow.appendChild(buildBox);
-    }
-    // colCounterOdd = 1;
-    // colCounterEven = 0;
-};
 
 
 //////////////////////////////////////Create Virtual Board to keep track of pieces
 
 // 0 means empty grid, 1 is Player 1 and 2 is Player 2;
-let board = [];
-for(var b=0; b<8; b++){
-    board[b] = [];
-    for (var c = 0; c < 8; c++) {
-        if((b%2===0) && (c%2 !== 0) && b<3){
-            board[b].push(1);
-        }
-        else if ( (b%2 !== 0) && (c%2===0) && b<3){
-            board[b].push(1);
-        }
-        else if ((b%2===0) && (c%2 !== 0) && b > 4){
-            board[b].push(2);
-        }
-        else if ((b%2 !== 0) && (c%2===0) && b > 4){
-            board[b].push(2);
-        }
-        else{
-            board[b].push(0);
-        }
 
-    }
-};
+const createVirtualBoard = () => {
+    for(var b=0; b<8; b++){
+        board[b] = [];
+        for (var c = 0; c < 8; c++) {
+            if((b%2===0) && (c%2 !== 0) && b<3){
+                board[b].push(1);
+            }
+            else if ( (b%2 !== 0) && (c%2===0) && b<3){
+                board[b].push(1);
+            }
+            else if ((b%2===0) && (c%2 !== 0) && b > 4){
+                board[b].push(2);
+            }
+            else if ((b%2 !== 0) && (c%2===0) && b > 4){
+                board[b].push(2);
+            }
+            else{
+                board[b].push(0);
+            }
+
+        }
+    };
+}
+
 
 
 ///////////////////////////////////////Create function to position pieces on UI
@@ -154,6 +212,28 @@ displayPieces()
 
 
 
+
+
+/////////////////////////////////////////////Player turn
+
+const changePlayer = () => {
+    // Change player
+    playerTurn = !playerTurn;
+
+    if (playerTurn === true) {
+        playerDisplayName = playerOneName;
+    }
+    else if(playerTurn === false){
+        playerDisplayName = playerTwoName;
+    }
+
+    const nameDisplay = document.querySelector('.player-display');
+    nameDisplay.textContent = `${playerDisplayName} Turn`
+}
+
+
+
+//////////////////////////////////////////////////Determination of first or second click
 
 // Store position of selected piece into variable
 const selectPiece = (piece) => {
@@ -195,6 +275,11 @@ const storeNewPosition = (piece) => {
     }
 }
 
+
+
+
+
+////////////////////////////////////////////////////Movement
 
 // Logic for movement without obstruction
 const moveNoObstruction = () => {
@@ -563,14 +648,16 @@ const moveWithCapture = () => {
 }
 
 
-// Function to check if any player has won
+//////////////////////////////////////////////////// Function to check if any player has won
 
 const checkWin = () => {
     const allPieces = board.flat();
     if(!(allPieces.includes(1))){
-        console.log('Player 1 wins');
+        const nameDisplay = document.querySelector('.player-display');
+        nameDisplay.textContent = `${playerOneName} Wins!!!`
     }
     else if(!(allPieces.includes(2))){
-        console.log('Player 2 wins');
+        const nameDisplay = document.querySelector('.player-display');
+        nameDisplay.textContent = `${playerTwoName} Wins!!!`
     }
 }
