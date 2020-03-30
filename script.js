@@ -331,7 +331,7 @@ const moveNoObstruction = () => {
                     console.log('execute movement with capture');
                 }
             }
-            else if (Math.abs(selectPiecePosition[1] - newPosition[0] > 2)) {
+            else if (Math.abs(selectPiecePosition[1] - newPosition[0] === 2)) {
 
                 // If new position more than 1 row, but movement for capture of opponent piece, return and execute moveWithCapture()
                 if( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
@@ -491,21 +491,21 @@ const moveNoObstruction = () => {
             // If starting position is at start line
             if ( ( (selectPiecePosition[1] === 7) && (newPosition[0] != 6) ) || ( (selectPiecePosition[1] === 0) && (newPosition[0] != 1) ) ) {
                 // If new position more than 1 row, king at start line, but movement for capture of opponent piece, return and execute moveWithCapture()
-                if ( ( (selectPiecePosition[1] === 7) && (selectPiecePosition[2]-2 === newPosition[1]) && ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 4) ) ) ||
-                    ( (selectPiecePosition[1] === 7) && (selectPiecePosition[2]+2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 4) ) ) ||
-                    ( (selectPiecePosition[1] === 0) && (selectPiecePosition[2]-2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) ) ||
-                    ( (selectPiecePosition[1] === 0) && (selectPiecePosition[2]+2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) ) ) {
+                if ( ( (selectPiecePosition[1] === 7) && (selectPiecePosition[2]-2 === newPosition[1]) && ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) ) ||
+                    ( (selectPiecePosition[1] === 7) && (selectPiecePosition[2]+2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) ) ||
+                    ( (selectPiecePosition[1] === 0) && (selectPiecePosition[2]-2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 3) ) ) ||
+                    ( (selectPiecePosition[1] === 0) && (selectPiecePosition[2]+2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 3) ) ) ) {
 
                     console.log('execute movement with capture');
                 }
             }
-            else if (Math.abs(selectPiecePosition[1] - newPosition[0] > 2)) {
+            else if (Math.abs(selectPiecePosition[1] - newPosition[0] === 2)) {
 
                 // If new position more than 1 row, but movement for capture of opponent piece, return and execute moveWithCapture()
-                if( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
-                 ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ||
-                  ( ( (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]+1] === 2) || (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
-                   ( ( (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]-1] === 2) || (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+                if( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+                 ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ||
+                  ( ( (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]+1] === 1) || (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+                   ( ( (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]-1] === 1) || (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
                     console.log('execute movement with capture');
                 }
             }
@@ -665,22 +665,206 @@ const moveWithCapture = () => {
         // King movement
         if(selectPiecePosition[3] === 'king1'){
 
-            // If select position is at start line
-            if ( ( (selectPiecePosition[1] === 7) && (newPosition[0] != 6) ) || ( (selectPiecePosition[1] === 0) && (newPosition[0] != 1) ) ) {
-                // If new position more than 1 row, king at start line, but movement for capture of opponent piece, return and execute moveWithCapture()
-                if ( ( (selectPiecePosition[1] === 7) && (selectPiecePosition[2]-2 === newPosition[1]) && ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 4) ) ) ||
-                    ( (selectPiecePosition[1] === 7) && (selectPiecePosition[2]+2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 4) ) ) ||
-                    ( (selectPiecePosition[1] === 0) && (selectPiecePosition[2]-2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) ) ||
-                    ( (selectPiecePosition[1] === 0) && (selectPiecePosition[2]+2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) ) ) {
+            // Movement acts like player 1
+            if(newPosition[0] > selectPiecePosition[1]){
+                // If row is even
+                if(selectPiecePosition[1] %2 === 0){
+                    // If row is even and first box, only one legal move
+                    if( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] === 1) ){
+                        if(newPosition[1] === 3){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 3;
 
-                    console.log('execute movement with capture');
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+                        }
+                    }
+                    // If row is even and last box, only one legal move
+                    else if( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] === 7) ){
+                        if(newPosition[1] === 5){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 3;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else if ( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+                     ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+                        // Piece move to new position
+                        board[newPosition[0]][newPosition[1]] = 3;
+
+                        // initial position becomes empty grid
+                        board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                        // captured position becomes empty grid
+                        if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && selectPiecePosition[2]+2 === newPosition[1] ) {
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+                        }
+                        else if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && selectPiecePosition[2]-2 === newPosition[1] ){
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else{
+                        console.log(`Illegal move`);
+                    }
                 }
-                // If new position more than 1 row, but movement for capture of opponent piece, return and execute moveWithCapture()
-                else if( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
-                 ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ||
-                  ( ( (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]+1] === 2) || (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
-                   ( ( (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]-1] === 2) || (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
-                    console.log('execute movement with capture');
+
+                // If row is odd
+                else if(selectPiecePosition[1] %2 != 0){
+                    // If row is odd and first box, only one legal move
+                    if( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] === 0) ){
+                        if(newPosition[1] === 2){
+                            // Piece move to new position
+                            board[newPosition[0]][2] = 3;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+                        }
+                    }
+                    // If row is odd and last box, only one legal move
+                    else if( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] === 6) ){
+                        if(newPosition[1] === 4){
+                            // Piece move to new position
+                            board[newPosition[0]][4] = 1;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else if ( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+                     ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 3;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && selectPiecePosition[2]+2 === newPosition[1] ) {
+                                board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+                            }
+                            else if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && selectPiecePosition[2]-2 === newPosition[1] ){
+                                board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+                            }
+                    }
+                    else{
+                        console.log(`Illegal move`);
+                    }
+                }
+            }
+            // Movement acts like player 2
+            else if(selectPiecePosition[1] > newPosition[0]){
+                // If row is even
+                if(selectPiecePosition[1] %2 === 0){
+                    // If row is even and first box, only one legal move
+                    if( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] === 1) ){
+                        if(newPosition[1] === 3){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 3;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
+
+                        }
+                    }
+                    // If row is even and last box, only one legal move
+                    else if( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] === 7) ){
+                        if(newPosition[1] === 5){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 3;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else if ( ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+                        ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+
+                        // Piece move to new position
+                        board[newPosition[0]][newPosition[1]] = 3;
+
+                        // initial position becomes empty grid
+                        board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                        // captured position becomes empty grid
+                        if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 4) ) && selectPiecePosition[2]+2 === newPosition[1] ) {
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
+                        }
+                        else if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 4)) && selectPiecePosition[2]-2 === newPosition[1] ){
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else{
+                        console.log(`Illegal move`);
+                    }
+                }
+
+                // If row is odd
+                else if(selectPiecePosition[1] %2 != 0){
+                    // If row is odd and first box, only one legal move
+                    if( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] === 0) ){
+                        if(newPosition[1] === 2){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 3;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
+                        }
+                    }
+                    // If row is odd and last box, only one legal move
+                    else if( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] === 6) ){
+                        if(newPosition[1] === 4){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 3;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else if ( ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+                     ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+                        // Piece move to new position
+                        board[newPosition[0]][newPosition[1]] = 3;
+
+                        // initial position becomes empty grid
+                        board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                        // captured position becomes empty grid
+                        if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 4) ) && selectPiecePosition[2]+2 === newPosition[1] ) {
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
+                        }
+                        else if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 4) ) && selectPiecePosition[2]-2 === newPosition[1] ){
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else{
+                        console.log(`Illegal move`);
+                    }
                 }
             }
 
@@ -697,7 +881,7 @@ const moveWithCapture = () => {
         // If row is even
         else if(selectPiecePosition[1] %2 === 0){
             // If row is even and first box, only one legal move
-            if( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) && (selectPiecePosition[2] === 1) ){
+            if( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] === 1) ){
                 if(newPosition[1] === 3){
                     // Piece move to new position
                     board[newPosition[0]][newPosition[1]] = 1;
@@ -710,7 +894,7 @@ const moveWithCapture = () => {
                 }
             }
             // If row is even and last box, only one legal move
-            else if( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) && (selectPiecePosition[2] === 7) ){
+            else if( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] === 7) ){
                 if(newPosition[1] === 5){
                     // Piece move to new position
                     board[newPosition[0]][newPosition[1]] = 1;
@@ -722,7 +906,8 @@ const moveWithCapture = () => {
                     board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
                 }
             }
-            else if ( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) && (selectPiecePosition[2] + 2 === newPosition[1])) ) || ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+            else if ( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+             ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
                 // Piece move to new position
                 board[newPosition[0]][newPosition[1]] = 1;
 
@@ -730,10 +915,10 @@ const moveWithCapture = () => {
                 board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
 
                 // captured position becomes empty grid
-                if (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) {
+                if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && selectPiecePosition[2]+2 === newPosition[1] )  {
                     board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
                 }
-                else if (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2){
+                else if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && selectPiecePosition[2]-2 === newPosition[1]  ){
                     board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
                 }
             }
@@ -745,7 +930,7 @@ const moveWithCapture = () => {
         // If row is odd
         else if(selectPiecePosition[1] %2 != 0){
             // If row is odd and first box, only one legal move
-            if( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) && (selectPiecePosition[2] === 0) ){
+            if( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] === 0) ){
                 if(newPosition[1] === 2){
                      // Piece becomes king
                     if (selectPiecePosition[1] === 5) {
@@ -771,7 +956,7 @@ const moveWithCapture = () => {
                 }
             }
             // If row is odd and last box, only one legal move
-            else if( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) && (selectPiecePosition[2] === 6) ){
+            else if( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] === 6) ){
                 if(newPosition[1] === 4){
                     // Piece becomes king
                     if (selectPiecePosition[1] === 5) {
@@ -796,20 +981,21 @@ const moveWithCapture = () => {
                     }
                 }
             }
-            else if ( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) && (selectPiecePosition[2] + 2 === newPosition[1])) ) || ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+            else if ( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+             ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
                 // Piece becomes king
                 if (selectPiecePosition[1] === 5) {
-                    // Piece move to new position and becomes king = 4
+                    // Piece move to new position and becomes king
                     board[newPosition[0]][newPosition[1]] = 3;
 
                     // initial position becomes empty grid
                     board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
 
                     // captured position becomes empty grid
-                    if ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) {
+                    if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && selectPiecePosition[2]+2 === newPosition[1] ) {
                         board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
                     }
-                    else if ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ){
+                    else if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && selectPiecePosition[2]-2 === newPosition[1]  ){
                         board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
                     }
                 }
@@ -821,10 +1007,10 @@ const moveWithCapture = () => {
                     board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
 
                     // captured position becomes empty grid
-                    if ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) {
+                    if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && selectPiecePosition[2]+2 === newPosition[1]  ) {
                         board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
                     }
-                    else if ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ){
+                    else if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && selectPiecePosition[2]-2 === newPosition[1] ){
                         board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
                     }
                 }
@@ -833,14 +1019,221 @@ const moveWithCapture = () => {
                 console.log(`Illegal move`);
             }
         }
-
-
     }
 
     // Player 2
     else if (selectPiecePosition[0] === 'player2'){
+        // If king
+        // King movement
+        if(selectPiecePosition[3] === 'king2'){
+
+            // Movement acts like player 1
+            if(newPosition[0] > selectPiecePosition[1]){
+                // If row is even
+                if(selectPiecePosition[1] %2 === 0){
+                    // If row is even and first box, only one legal move
+                    if( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] === 1) ){
+                        if(newPosition[1] === 3){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 4;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+                        }
+                    }
+                    // If row is even and last box, only one legal move
+                    else if( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] === 7) ){
+                        if(newPosition[1] === 5){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 4;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else if ( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+                     ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+                        // Piece move to new position
+                        board[newPosition[0]][newPosition[1]] = 4;
+
+                        // initial position becomes empty grid
+                        board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                        // captured position becomes empty grid
+                        if ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 3) && selectPiecePosition[2]+2 === newPosition[1]  ) {
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+                        }
+                        else if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 3) ) && selectPiecePosition[2]-2 === newPosition[1]  ){
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else{
+                        console.log(`Illegal move`);
+                    }
+                }
+
+                // If row is odd
+                else if(selectPiecePosition[1] %2 != 0){
+                    // If row is odd and first box, only one legal move
+                    if( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] === 0) ){
+                        if(newPosition[1] === 2){
+                            // Piece move to new position
+                            board[newPosition[0]][2] = 4;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+                        }
+                    }
+                    // If row is odd and last box, only one legal move
+                    else if( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] === 6) ){
+                        if(newPosition[1] === 4){
+                            // Piece move to new position
+                            board[newPosition[0]][4] = 4;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else if ( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+                     ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 4;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 3) ) && selectPiecePosition[2]+2 === newPosition[1] ) {
+                                board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+                            }
+                            else if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 3) ) && selectPiecePosition[2]-2 === newPosition[1]  ){
+                                board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+                            }
+                    }
+                    else{
+                        console.log(`Illegal move`);
+                    }
+                }
+            }
+            // Movement acts like player 2
+            else if(selectPiecePosition[1] > newPosition[0]){
+                // If row is even
+                if(selectPiecePosition[1] %2 === 0){
+                    // If row is even and first box, only one legal move
+                    if( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] === 1) ){
+                        if(newPosition[1] === 3){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 4;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
+
+                        }
+                    }
+                    // If row is even and last box, only one legal move
+                    else if( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] === 7) ){
+                        if(newPosition[1] === 5){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 4;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else if ( ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+                        ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+
+                        // Piece move to new position
+                        board[newPosition[0]][newPosition[1]] = 4;
+
+                        // initial position becomes empty grid
+                        board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                        // captured position becomes empty grid
+                        if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) && selectPiecePosition[2]+2 === newPosition[1] ) {
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
+                        }
+                        else if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && selectPiecePosition[2]-2 === newPosition[1]  ){
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else{
+                        console.log(`Illegal move`);
+                    }
+                }
+
+                // If row is odd
+                else if(selectPiecePosition[1] %2 != 0){
+                    // If row is odd and first box, only one legal move
+                    if( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] === 0) ){
+                        if(newPosition[1] === 2){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 4;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
+                        }
+                    }
+                    // If row is odd and last box, only one legal move
+                    else if( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] === 6) ){
+                        if(newPosition[1] === 4){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 4;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else if ( ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+                     ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+                        // Piece move to new position
+                        board[newPosition[0]][newPosition[1]] = 4;
+
+                        // initial position becomes empty grid
+                        board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                        // captured position becomes empty grid
+                        if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) && selectPiecePosition[2]+2 === newPosition[1] ) {
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
+                        }
+                        else if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && selectPiecePosition[2]-2 === newPosition[1] ){
+                            board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else{
+                        console.log(`Illegal move`);
+                    }
+                }
+            }
+
+        }
+
         // If new position moves backwards, illegal move until become king
-        if((newPosition[0] - selectPiecePosition[1]) > 0){
+        else if((newPosition[0] - selectPiecePosition[1]) > 0){
             console.log(`Illegal move. Cannot move backwards until Piece becomes king`);
         }
         // If new position more than 1 row from previous position, illegal move
@@ -912,25 +1305,25 @@ const moveWithCapture = () => {
                     board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
 
                     // captured position becomes empty grid
-                    if ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) {
+                    if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) && selectPiecePosition[2]+2 === newPosition[1] ) {
                         board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
                     }
-                    else if ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ){
+                    else if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && selectPiecePosition[2]-2 === newPosition[1] ){
                         board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
                     }
                 }
                 else{
                     // Piece move to new position
-                    board[newPosition[0]][newPosition[1]] = 2;
+                    board[newPosition[0]][newPosition[1]] = 4;
 
                     // initial position becomes empty grid
                     board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
 
                     // captured position becomes empty grid
-                    if ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) {
+                    if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) && selectPiecePosition[2]+2 === newPosition[1] ) {
                         board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
                     }
-                    else if ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ){
+                    else if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && selectPiecePosition[2]-2 === newPosition[1] ){
                         board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
                     }
                 }
@@ -943,7 +1336,7 @@ const moveWithCapture = () => {
         // If row is odd
         else if(selectPiecePosition[1] %2 != 0){
             // If row is odd and first box, only one legal move
-            if( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) && (selectPiecePosition[2] === 0) ){
+            if( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] === 0) ){
                 if(newPosition[1] === 2){
                     // Piece move to new position
                     board[newPosition[0]][newPosition[1]] = 2;
@@ -956,7 +1349,7 @@ const moveWithCapture = () => {
                 }
             }
             // If row is odd and last box, only one legal move
-            else if( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) && (selectPiecePosition[2] === 6) ){
+            else if( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] === 6) ){
                 if(newPosition[1] === 4){
                     // Piece move to new position
                     board[newPosition[0]][newPosition[1]] = 2;
@@ -968,7 +1361,8 @@ const moveWithCapture = () => {
                     board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
                 }
             }
-            else if ( ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) && (selectPiecePosition[2] + 2 === newPosition[1])) ) || ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+            else if ( ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+             ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
                 // Piece move to new position
                 board[newPosition[0]][newPosition[1]] = 2;
 
@@ -976,10 +1370,10 @@ const moveWithCapture = () => {
                 board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
 
                 // captured position becomes empty grid
-                if (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) {
+                if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) && selectPiecePosition[2]+2 === newPosition[1] ) {
                     board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
                 }
-                else if (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1){
+                else if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && selectPiecePosition[2]+2 === newPosition[1] ){
                     board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
                 }
             }
