@@ -52,3 +52,5 @@ movement of 3 and 4 should be exactly the same since both can move forwards and 
 Change win condition to also include 3 and 4
 
 CSS for king piece should be different from normal piece.
+
+if(selectPiecePosition[1] === 0)

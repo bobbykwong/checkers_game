@@ -68,7 +68,7 @@ const movePiece = (event) => {
 
 
     // Determines second click to move piece to new position
-    else if (selectPiecePosition.length === 3) {
+    else if ( (selectPiecePosition.length === 3) || (selectPiecePosition.length === 4) ) {
         selectPiece(event.target.className);
 
         // Store new position in variable
@@ -266,6 +266,11 @@ const selectPiece = (piece) => {
 
         // Determine column
         selectPiecePosition.push(parseInt(piece.split(' ')[2].split('')[3]));
+
+        // Determine if piece is king
+        if (piece.split(' ')[4] === 'king1') {
+            selectPiecePosition.push('king1')
+        }
     }
     else if(piece.split(' ')[3] === 'player2'){
         selectPiecePosition.push('player2');
@@ -275,6 +280,11 @@ const selectPiece = (piece) => {
 
         // Determine column
         selectPiecePosition.push(parseInt(piece.split(' ')[2].split('')[3]));
+
+        // Determine if piece is king
+        if (piece.split(' ')[4] === 'king2') {
+            selectPiecePosition.push('king2')
+        }
     }
 }
 
@@ -307,9 +317,84 @@ const moveNoObstruction = () => {
     // Determine if Player 1 or Player 2.
     // Player 1
     if (selectPiecePosition[0] === 'player1') {
+        // King movement
+        if(selectPiecePosition[3] === 'king1'){
+
+            // If starting position is at start line
+            if ( ( (selectPiecePosition[1] === 7) && (newPosition[0] != 6) ) || ( (selectPiecePosition[1] === 0) && (newPosition[0] != 1) ) ) {
+                // If new position more than 1 row, king at start line, but movement for capture of opponent piece, return and execute moveWithCapture()
+                if ( ( (selectPiecePosition[1] === 7) && (selectPiecePosition[2]-2 === newPosition[1]) && ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 4) ) ) ||
+                    ( (selectPiecePosition[1] === 7) && (selectPiecePosition[2]+2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 4) ) ) ||
+                    ( (selectPiecePosition[1] === 0) && (selectPiecePosition[2]-2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) ) ||
+                    ( (selectPiecePosition[1] === 0) && (selectPiecePosition[2]+2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) ) ) {
+
+                    console.log('execute movement with capture');
+                }
+                // If new position more than 1 row, but movement for capture of opponent piece, return and execute moveWithCapture()
+                else if( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+                 ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ||
+                  ( ( (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]+1] === 2) || (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+                   ( ( (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]-1] === 2) || (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+                    console.log('execute movement with capture');
+                }
+            }
+            // If new position more than 1 row from previous position, illegal move
+            else if ( Math.abs(newPosition[0] - selectPiecePosition[1]) > 1 ){
+                console.log(`Illegal move. Cannot move more than 1 row`);
+            }
+            // If row where select piece is on is even
+            else if ( selectPiecePosition[1] %2 === 0 ) {
+                // if Row even and last box, only two legal moves
+                if(selectPiecePosition[2] === 7){
+                    if (newPosition[1] === 6) {
+                        // Piece move to new position
+                        board[newPosition[0]][6] = 3;
+
+                        // initial position becomes empty grid
+                        board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+                    }
+                }
+                else if(selectPiecePosition[2] % 2 !=0 ){
+                    // Piece move to new position
+                    board[newPosition[0]][newPosition[1]] = 3;
+
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+                }
+                // If new position is light grid, illegal move
+                else if(selectPiecePosition[2] % 2 ===0 ){
+                    console.log(`Illegal move, light grid`);
+                }
+            }
+            // If row where select piece is on is odd
+            else if ( selectPiecePosition[1] %2 != 0 ) {
+                // if Row odd and first box, only one legal move
+                if(selectPiecePosition[2] === 0){
+                    if (newPosition[1] === 1) {
+                        // Piece move to new position
+                        board[newPosition[0]][1] = 3;
+
+                        // initial position becomes empty grid
+                        board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+                    }
+                }
+                else if(selectPiecePosition[2] % 2 ===0 ){
+                    // Piece move to new position
+                    board[newPosition[0]][newPosition[1]] = 3;
+
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+                }
+                // If new position is light grid, illegal move
+                else if(selectPiecePosition[2] % 2 !=0 ){
+                    console.log(`Illegal move, light grid`);
+                }
+            }
+
+        }
 
         // If new position moves backwards, illegal move until become king
-        if((newPosition[0] - selectPiecePosition[1]) < 0){
+        else if((newPosition[0] - selectPiecePosition[1]) < 0){
             console.log(`Illegal move. Cannot move backwards until Piece becomes king`);
         }
         // If new position more than 1 row, but movement for capture of opponent piece, return and execute moveWithCapture()
@@ -397,8 +482,85 @@ const moveNoObstruction = () => {
     // Player 2 movement
     else if (selectPiecePosition[0] === 'player2') {
 
+        // King movement
+        if(selectPiecePosition[3] === 'king2'){
+
+            // If starting position is at start line
+            if ( ( (selectPiecePosition[1] === 7) && (newPosition[0] != 6) ) || ( (selectPiecePosition[1] === 0) && (newPosition[0] != 1) ) ) {
+                // If new position more than 1 row, king at start line, but movement for capture of opponent piece, return and execute moveWithCapture()
+                if ( ( (selectPiecePosition[1] === 7) && (selectPiecePosition[2]-2 === newPosition[1]) && ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 4) ) ) ||
+                    ( (selectPiecePosition[1] === 7) && (selectPiecePosition[2]+2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 4) ) ) ||
+                    ( (selectPiecePosition[1] === 0) && (selectPiecePosition[2]-2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) ) ||
+                    ( (selectPiecePosition[1] === 0) && (selectPiecePosition[2]+2 === newPosition[1]) &&  ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) ) ) {
+
+                    console.log('execute movement with capture');
+                }
+                // If new position more than 1 row, but movement for capture of opponent piece, return and execute moveWithCapture()
+                else if( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] + 2 === newPosition[1])) ||
+                 ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ||
+                 ( ( (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]+1] === 1) || (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+                 ( ( (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]-1] === 1) || (board[Math.abs(selectPiecePosition[1]-1)][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+                    console.log('execute movement with capture');
+                }
+            }
+
+            // If new position more than 1 row from previous position, illegal move
+            else if ( Math.abs(newPosition[0] - selectPiecePosition[1]) > 1 ){
+                console.log(`Illegal move. Cannot move more than 1 row`);
+            }
+            // If row where select piece is on is even
+            else if ( selectPiecePosition[1] %2 === 0 ) {
+                // if Row even and last box, only two legal moves
+                if(selectPiecePosition[2] === 7){
+                    if (newPosition[1] === 6) {
+                        // Piece move to new position
+                        board[newPosition[0]][6] = 4;
+
+                        // initial position becomes empty grid
+                        board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+                    }
+                }
+                else if(selectPiecePosition[2] % 2 !=0 ){
+                    // Piece move to new position
+                    board[newPosition[0]][newPosition[1]] = 4;
+
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+                }
+                // If new position is light grid, illegal move
+                else if(selectPiecePosition[2] % 2 ===0 ){
+                    console.log(`Illegal move, light grid`);
+                }
+            }
+            // If row where select piece is on is odd
+            else if ( selectPiecePosition[1] %2 != 0 ) {
+                // if Row odd and first box, only one legal move
+                if(selectPiecePosition[2] === 0){
+                    if (newPosition[1] === 1) {
+                        // Piece move to new position
+                        board[newPosition[0]][1] = 4;
+
+                        // initial position becomes empty grid
+                        board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+                    }
+                }
+                else if(selectPiecePosition[2] % 2 ===0 ){
+                    // Piece move to new position
+                    board[newPosition[0]][newPosition[1]] = 4;
+
+                    // initial position becomes empty grid
+                    board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+                }
+                // If new position is light grid, illegal move
+                else if(selectPiecePosition[2] % 2 !=0 ){
+                    console.log(`Illegal move, light grid`);
+                }
+            }
+
+        }
+
         // If new position moves backwards, illegal move until become king
-        if((newPosition[0] - selectPiecePosition[1]) > 0){
+        else if((newPosition[0] - selectPiecePosition[1]) > 0){
             console.log(`Illegal move. Cannot move backwards until Piece becomes king`);
         }
         // If new position more than 1 row, but movement for capture of opponent piece, return and execute moveWithCapture()
