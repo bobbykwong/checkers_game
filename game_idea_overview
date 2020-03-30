@@ -21,6 +21,7 @@ Further
 2. When a piece reaches the end of the board, it becomes a "king" piece which allows it to move forwards and backwards.
 3. Chess piece able to recognise another chess piece that is in the way of it. Obstacle restriction
 4. Chess piece able to recognise that it cannot move out of the board. Board restriction
+5. CHeck win condition again!!!
 
 
 Further (TARGET)
@@ -29,6 +30,7 @@ Further (TARGET)
 3. Try some bootstrap for some elements.
 4. Board show possible moves for pieces.
 5. Able to play time chess
+6. Able to undo move. Put virtual board into array for every round. Pop it to go back to previous round
 
 
 Ambitious 1

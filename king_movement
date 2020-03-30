@@ -1,0 +1,27 @@
+blueprint for movement when piece becomes king.
+
+current virtual board
+
+[
+[0, 1, 0, 1, 0, 1, 0, 1],
+[1, 0, 1, 0, 1, 0, 1, 0],
+[0, 1, 0, 1, 0, 1, 0, 1],
+[0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0],
+[2, 0, 2, 0, 2, 0, 2, 0],
+[0, 2, 0, 2, 0, 2, 0, 2],
+[2, 0, 2, 0, 2, 0, 2, 0],
+]
+
+create conditional
+if player 1 reaches row 7, 1+2 = 3.
+player 1 piece becomes 3 on virtual board
+if player 2 reaches row 0, 2+2 = 4.
+player 1 piece becomes 4 on virtual board
+
+
+movement of 3 and 4 should be exactly the same since both can move forwards and backwards.
+
+Change win condition to also include 3 and 4
+
+CSS for king piece should be different from normal piece.
