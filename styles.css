@@ -32,6 +32,10 @@ main{
 	display: none;
 }
 
+.blur{
+	opacity: 0.2;
+}
+
 .player-display{
 	align-self: center;
 	font-size: 70px;

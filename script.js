@@ -50,6 +50,7 @@ let playerOneName = "";
 let playerTwoName = "";
 let playerDisplayName = "";
 let board = [];
+let winState = false;
 
 
 //////////////////////////////////////Controller for game play
@@ -83,15 +84,20 @@ const movePiece = (event) => {
         displayPieces();
 
         // Check win condition
-        checkWin();
+        checkWin()
+        if (winState) {
+            const uiBoard = document.querySelector('board');
+            uiBoard.classList.add('.blur');
+        }
 
         // Reset selectPiecePosition and New Position for next move.
-        selectPiecePosition = [];
-        newPosition = [];
+        else{
+            selectPiecePosition = [];
+            newPosition = [];
 
-        // change player
-        changePlayer();
-
+            // change player
+            changePlayer();
+        }
     }
 }
 
@@ -798,12 +804,15 @@ const moveWithCapture = () => {
 
 const checkWin = () => {
     const allPieces = board.flat();
-    if(!(allPieces.includes(1))){
+    if(!(allPieces.includes(1) || allPieces.includes(3))){
         const nameDisplay = document.querySelector('.player-display');
+        console.log(nameDisplay);
         nameDisplay.textContent = `${playerOneName} Wins!!!`
+        winState = true;
     }
-    else if(!(allPieces.includes(2))){
+    else if(!(allPieces.includes(2) || allPieces.includes(4))){
         const nameDisplay = document.querySelector('.player-display');
         nameDisplay.textContent = `${playerTwoName} Wins!!!`
+        winState = true;
     }
 }
