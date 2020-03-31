@@ -1316,7 +1316,7 @@ const moveWithCapture = () => {
                 }
             }
             // If row is even and last box, only one legal move
-            else if( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) && (selectPiecePosition[2] === 7) ){
+            else if( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] === 7) ){
                 if(newPosition[1] === 5){
                     // Piece becomes king
                     if (selectPiecePosition[1] === 2) {
@@ -1341,7 +1341,8 @@ const moveWithCapture = () => {
                     }
                 }
             }
-            else if ( ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) && (selectPiecePosition[2] + 2 === newPosition[1])) ) || ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+            else if ( ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+             ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
                 // Piece becomes king
                 if (selectPiecePosition[1] === 2) {
                     // Piece move to new position and becomes king = 4

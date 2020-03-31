@@ -60,3 +60,9 @@ When property piece in object of either player becomes 0.
 //////////////////////////UI
 
 Add border onto grid when it is selected
+
+
+
+////////////////////Amendments
+Button to restart game after win condition set
+initialize game after retart button pressed.
