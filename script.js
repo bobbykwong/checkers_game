@@ -92,8 +92,12 @@ const movePiece = (event) => {
             // Check win condition
             checkWin()
             if (winState) {
-                const uiBoard = document.querySelector('board');
-                uiBoard.classList.add('.blur');
+                // Blur board background
+                const uiBoard = document.querySelector('.board');
+                uiBoard.classList.add('blur');
+
+                // Add restart game button
+                addRestartButton();
             }
 
             // Reset selectPiecePosition and New Position for next move.
@@ -252,7 +256,6 @@ const displayPieces = () =>{
     }
 }
 
-displayPieces()
 
 
 
@@ -1448,4 +1451,58 @@ const checkWin = () => {
         nameDisplay.textContent = `${playerTwoName} Wins!!!`
         winState = true;
     }
+}
+
+const addRestartButton = () => {
+    const restartButton = document.createElement('button');
+    restartButton.textContent = "Restart Game"
+    restartButton.setAttribute("type", "button");
+    restartButton.setAttribute("class", "restart-button");
+    restartButton.addEventListener('click', restartGame);
+    const main = document.querySelector('main');
+    main.appendChild(restartButton);
+}
+
+const restartGame = (event) => {
+    // Remove restart button
+    const restartBtn = document.querySelector('.restart-button');
+    restartBtn.parentNode.removeChild(restartBtn);
+
+    // Remove blur class of board
+    const uiBoard = document.querySelector('.board');
+    uiBoard.classList.remove('blur');
+
+    selectPiecePosition = [];
+    newPosition = [];
+    board = [];
+    winState = false;
+    playerTurn = true;
+
+    // Create virtual board tp keep track of pieces.
+    createVirtualBoard();
+
+    // Clear UI board
+    for (var p=0; p<8; p++){
+        for (var q=0; q<8; q++){
+            // Specify Grid
+            const grid = document.getElementsByClassName(`row${p} col${q}`)[0];
+            // Loop may run over light grids which are undefined based on above classname selection
+            if (grid != undefined) {
+                if (grid.classList.contains('player1') || grid.classList.contains('player2') || grid.classList.contains('king1') || grid.classList.contains('king2')) {
+                    grid.classList.remove('player1');
+                    grid.classList.remove('player2');
+                    grid.classList.remove('king1');
+                    grid.classList.remove('king2');
+                }
+            }
+        }
+    }
+
+    // Display pieces on board
+    displayPieces();
+
+    // Show player turn
+    const playerDisplay = document.querySelector('.player-display');
+    playerDisplay.textContent = `${playerOneName} turn`;
+
 }

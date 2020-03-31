@@ -59,7 +59,7 @@ main{
 }
 
 .blur{
-	opacity: 0.2;
+	opacity: 0.4;
 }
 
 .player-display{
@@ -118,4 +118,16 @@ main{
 
 .selected-piece{
 	border: 5px solid red;
+}
+
+.restart-button{
+	position: fixed;
+	left: 50%;
+  margin-left: -50px;
+  top: 50%;
+  margin-top: -50px;
+  height: 100px;
+  width: 300px;
+  font-size: 40px;
+  box-shadow: 2px 2px 1px black;
 }
