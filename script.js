@@ -38,7 +38,7 @@ const startGame = (event) => {
 const startButton = document.querySelector('.start-game');
 startButton.addEventListener('click', startGame);
 
-const submitNames = document.querySelector('.submit-name');
+const submitNames = document.querySelector('.submit');
 submitNames.addEventListener('click', addNames);
 
 
@@ -295,6 +295,10 @@ const selectPiece = (piece) => {
         if (piece.split(' ')[4] === 'king1') {
             selectPiecePosition.push('king1')
         }
+
+        // Add border on selected piece
+        const selectedPiece = document.getElementsByClassName(piece)[0];
+        selectedPiece.classList.add('selected-piece');
     }
     else if(piece.split(' ')[3] === 'player2'){
         selectPiecePosition.push('player2');
@@ -309,6 +313,10 @@ const selectPiece = (piece) => {
         if (piece.split(' ')[4] === 'king2') {
             selectPiecePosition.push('king2')
         }
+
+        // Add border on selected piece
+        const selectedPiece = document.getElementsByClassName(piece)[0];
+        selectedPiece.classList.add('selected-piece');
     }
 }
 
@@ -338,6 +346,9 @@ const storeNewPosition = (piece) => {
         // Determine column
         newPosition.push(parseInt(piece.split(' ')[2].split('')[3]));
     }
+
+    const selectedPiece = document.getElementsByClassName(`row${selectPiecePosition[1]} col${selectPiecePosition[2]} ${selectPiecePosition[0]}`)[0];
+    selectedPiece.classList.remove('selected-piece');
 }
 
 

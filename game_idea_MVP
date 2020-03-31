@@ -54,3 +54,9 @@
 
 /////////////////////////Win Condition
 When property piece in object of either player becomes 0.
+
+
+
+//////////////////////////UI
+
+Add border onto grid when it is selected
