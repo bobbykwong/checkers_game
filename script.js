@@ -1465,7 +1465,7 @@ const moveWithCapture = () => {
                 if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === 3) ) && selectPiecePosition[2]+2 === newPosition[1] ) {
                     board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
                 }
-                else if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && selectPiecePosition[2]+2 === newPosition[1] ){
+                else if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 1) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === 3) ) && selectPiecePosition[2]-2 === newPosition[1] ){
                     board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
                 }
             }

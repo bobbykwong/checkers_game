@@ -1,0 +1,14 @@
+*************Future changes to consider
+
+1. Add double jump function
+2. Add hints on where player can move. 
+3. Redo move function.
+4. Allow computer to play defensively. 
+5. Current version not mobile responsive. 
+
+
+
+*************Area of code to improve on
+1. movement function very messy. 
+2. Too many conditionals in place. 
+3. There may be some unanticipated moves which may cause bugs to the system. Need to think of way to prevent game from crashing when bugs occur
