@@ -102,19 +102,39 @@ main{
 
 .player1{
 	background-image: url('./images/player1.svg');
+	transition: transform .2s;
+}
+
+.player1:hover{
+	transform: scale(1.1);
 }
 
 .player2{
 	background-image: url('./images/player2.svg');
+	transition: transform .2s;
+}
+
+.player2:hover{
+	transform: scale(1.1);
 }
 
 .king1{
 	background-size: 100%;
 	background-image: url('./images/king1.svg');
+	transition: transform .2s;
+}
+
+.king1:hover{
+	transform: scale(1.1);
 }
 
 .king2{
 	background-image: url('./images/king2.svg');
+	transition: transform .2s;
+}
+
+.king1:hover{
+	transform: scale(1.1);
 }
 
 .selected-piece{

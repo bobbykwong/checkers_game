@@ -50,6 +50,7 @@ let playerOneName = "";
 let playerTwoName = "";
 let playerDisplayName = "";
 let board = [];
+let checkBoard = [];
 let winState = false;
 
 
@@ -109,8 +110,18 @@ const movePiece = (event) => {
                     addRestartButton();
                 }
 
+                // If no move was made
+                else if(board === checkBoard){
+                    console.log('no move was made');
+                    selectPiecePosition = [];
+                    newPosition = [];
+
+                }
+
                 // Reset selectPiecePosition and New Position for next move.
                 else{
+                    checkBoard = board;
+
                     selectPiecePosition = [];
                     newPosition = [];
 
@@ -404,6 +415,11 @@ const moveNoObstruction = () => {
             else if ( Math.abs(newPosition[0] - selectPiecePosition[1]) > 1 ){
                 console.log(`Illegal move. Cannot move more than 1 row`);
             }
+
+            // If new position more than 1 column from previous position, illegal move
+            else if (Math.abs(newPosition[1] - selectPiecePosition[2]) > 1) {
+                console.log(`Illegal move. Cannot move more than 1 row.`);
+            }
             // If row where select piece is on is even
             else if ( selectPiecePosition[1] %2 === 0 ) {
                 // if Row even and last box, only two legal moves
@@ -467,6 +483,11 @@ const moveNoObstruction = () => {
         // If new position more than 1 row from previous position, illegal move
         else if ( Math.abs(newPosition[0] - selectPiecePosition[1]) > 1 ){
             console.log(`Illegal move. Cannot move more than 1 row`);
+        }
+
+        // If new position more than 1 column from previous position, illegal move
+        else if (Math.abs(newPosition[1] - selectPiecePosition[2]) > 1) {
+            console.log(`Illegal move. Cannot move more than 1 row.`);
         }
 
         // If row where select piece is on is even
@@ -573,6 +594,12 @@ const moveNoObstruction = () => {
             else if ( Math.abs(newPosition[0] - selectPiecePosition[1]) > 1 ){
                 console.log(`Illegal move. Cannot move more than 1 row`);
             }
+
+            // If new position more than 1 column from previous position, illegal move
+            else if (Math.abs(newPosition[1] - selectPiecePosition[2]) > 1) {
+                console.log(`Illegal move. Cannot move more than 1 row.`);
+            }
+
             // If row where select piece is on is even
             else if ( selectPiecePosition[1] %2 === 0 ) {
                 // if Row even and last box, only two legal moves
@@ -636,6 +663,11 @@ const moveNoObstruction = () => {
         // If new position more than 1 row from previous position, illegal move
         else if ( Math.abs(newPosition[0] - selectPiecePosition[1]) > 1 ){
             console.log(`Illegal move. Cannot move more than 1 row`);
+        }
+
+        // If new position more than 1 column from previous position, illegal move
+        else if (Math.abs(newPosition[1] - selectPiecePosition[2]) > 1) {
+            console.log(`Illegal move. Cannot move more than 1 row.`);
         }
 
         // If row where select piece is on is even
