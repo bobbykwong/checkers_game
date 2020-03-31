@@ -24,6 +24,8 @@ main{
 	justify-content: center;
 	flex-direction: column;
 	padding: 10px;
+	border: 10px solid #8b3f1bc9;
+  border-style: ridge;
 }
 
 .name{
@@ -69,12 +71,11 @@ main{
 }
 
 .board{
-	background-color: green;
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-/*	height: 800px;
-	width: 800px;*/
+	border: 30px solid #8b3f1bc9;
+  border-style: ridge;
 }
 
 .length{

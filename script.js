@@ -73,40 +73,47 @@ const movePiece = (event) => {
         // Store new position in variable
         storeNewPosition(event.target.className);
 
-        // If user deselects his option
-        if(newPosition[0] === selectPiecePosition[1] && newPosition[1] === selectPiecePosition[2]){
+        // If wrong clck result in no newPosition
+        if (newPosition.length === 0) {
             selectPiecePosition = [];
             newPosition = [];
-
         }
         else{
-            // If no obstruction.
-            moveNoObstruction();
-
-            // If obstruction,
-            moveWithCapture();
-
-            // display new Board
-            displayPieces();
-
-            // Check win condition
-            checkWin()
-            if (winState) {
-                // Blur board background
-                const uiBoard = document.querySelector('.board');
-                uiBoard.classList.add('blur');
-
-                // Add restart game button
-                addRestartButton();
-            }
-
-            // Reset selectPiecePosition and New Position for next move.
-            else{
+            // If user deselects his option
+            if(newPosition[0] === selectPiecePosition[1] && newPosition[1] === selectPiecePosition[2]){
                 selectPiecePosition = [];
                 newPosition = [];
 
-                // change player
-                changePlayer();
+            }
+            else{
+                // If no obstruction.
+                moveNoObstruction();
+
+                // If obstruction,
+                moveWithCapture();
+
+                // display new Board
+                displayPieces();
+
+                // Check win condition
+                checkWin()
+                if (winState) {
+                    // Blur board background
+                    const uiBoard = document.querySelector('.board');
+                    uiBoard.classList.add('blur');
+
+                    // Add restart game button
+                    addRestartButton();
+                }
+
+                // Reset selectPiecePosition and New Position for next move.
+                else{
+                    selectPiecePosition = [];
+                    newPosition = [];
+
+                    // change player
+                    changePlayer();
+                }
             }
         }
     }
