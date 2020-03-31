@@ -85,8 +85,8 @@ main{
 
 .dark{
 	background-color: grey;
-	width: 80px;
-	height: 80px;
+	width: 60px;
+	height: 60px;
 	border-color: black;
 	box-sizing: border-box;
 	text-align: center;
@@ -94,8 +94,8 @@ main{
 
 .light{
 	background-color: beige;
-	width: 80px;
-	height: 80px;
+	width: 60px;
+	height: 60px;
 	box-sizing: border-box;
 	text-align: center;
 }
