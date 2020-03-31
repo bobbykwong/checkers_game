@@ -86,11 +86,14 @@ const movePiece = (event) => {
 
             }
             else{
-                // If no obstruction.
-                moveNoObstruction();
-
-                // If obstruction,
-                moveWithCapture();
+                if (Math.abs(newPosition[0]-selectPiecePosition[1]) < 2) {
+                    // If no obstruction.
+                    moveNoObstruction();
+                }
+                else{
+                    // If obstruction,
+                    moveWithCapture();
+                }
 
                 // display new Board
                 displayPieces();
