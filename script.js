@@ -69,34 +69,41 @@ const movePiece = (event) => {
 
     // Determines second click to move piece to new position
     else if ( (selectPiecePosition.length === 3) || (selectPiecePosition.length === 4) ) {
-        selectPiece(event.target.className);
 
         // Store new position in variable
         storeNewPosition(event.target.className);
 
-        // If no obstruction.
-        moveNoObstruction();
-
-        // If obstruction,
-        moveWithCapture();
-
-        // display new Board
-        displayPieces();
-
-        // Check win condition
-        checkWin()
-        if (winState) {
-            const uiBoard = document.querySelector('board');
-            uiBoard.classList.add('.blur');
-        }
-
-        // Reset selectPiecePosition and New Position for next move.
-        else{
+        // If user deselects his option
+        if(newPosition[0] === selectPiecePosition[1] && newPosition[1] === selectPiecePosition[2]){
             selectPiecePosition = [];
             newPosition = [];
 
-            // change player
-            changePlayer();
+        }
+        else{
+            // If no obstruction.
+            moveNoObstruction();
+
+            // If obstruction,
+            moveWithCapture();
+
+            // display new Board
+            displayPieces();
+
+            // Check win condition
+            checkWin()
+            if (winState) {
+                const uiBoard = document.querySelector('board');
+                uiBoard.classList.add('.blur');
+            }
+
+            // Reset selectPiecePosition and New Position for next move.
+            else{
+                selectPiecePosition = [];
+                newPosition = [];
+
+                // change player
+                changePlayer();
+            }
         }
     }
 }
@@ -129,23 +136,29 @@ const createBoard = () => {
             if ( (i%2===0) && (a%2 !== 0) ) {
                 buildBox.className = `dark row${i} col${a}`;
                 // colCounterOdd++;
+                buildBox.textContent = ""
+                buildBox.addEventListener('click', movePiece)
+                buildRow.appendChild(buildBox);
             }
             else if( (i%2===0) && (a%2===0) ){
                 //light grids are non-plyable grids.
                 // Classname only serves for styling purposes, therefore numbering not required.
                 buildBox.className = 'light';
+                buildBox.textContent = ""
+                buildRow.appendChild(buildBox);
             }
             else if( (i%2 !== 0) && (a%2===0) ){
                 buildBox.className = `dark row${i} col${a}`
                 // colCounterEven++;
+                buildBox.textContent = ""
+                buildBox.addEventListener('click', movePiece)
+                buildRow.appendChild(buildBox);
             }
             else if( (i%2 !== 0) && (a%2 !== 0) ){
                 buildBox.className = 'light';
+                buildBox.textContent = ""
+                buildRow.appendChild(buildBox);
             }
-
-            buildBox.textContent = ""
-            buildBox.addEventListener('click', movePiece)
-            buildRow.appendChild(buildBox);
         }
         // colCounterOdd = 1;
         // colCounterEven = 0;
@@ -162,14 +175,25 @@ const createVirtualBoard = () => {
     for(var b=0; b<8; b++){
         board[b] = [];
         for (var c = 0; c < 8; c++) {
+            // Row even, column odd, player 1 piece up to 3 rows
             if((b%2===0) && (c%2 !== 0) && b<3){
                 board[b].push(1);
             }
+            // Row even, column even, light grids all the rows
+            else if ((b%2===0) && (c%2 === 0)) {
+                board[b].push(null)
+            }
+            // Row odd, column even, player 1 piece up to row 3
             else if ( (b%2 !== 0) && (c%2===0) && b<3){
                 board[b].push(1);
             }
+            // Row even, column odd, player 2 piece from row 5-7
             else if ((b%2===0) && (c%2 !== 0) && b > 4){
                 board[b].push(2);
+            }
+            // Row odd, column odd, light grids all the rows
+            else if ((b%2 !== 0) && (c%2!==0)) {
+                board[b].push(null);
             }
             else if ((b%2 !== 0) && (c%2===0) && b > 4){
                 board[b].push(2);
@@ -291,9 +315,20 @@ const selectPiece = (piece) => {
 // Store position of new position into variable
 const storeNewPosition = (piece) => {
 
-    // Determine if move legal
-    if (piece.split(' ')[3] === `player1` || piece.split(' ')[3] === `player2` || piece.split(' ')[0] === `light`){
-        console.log(`Illegal move. You cannot move to an occupied position`);
+    if (piece.split(' ')[3] === `player1` || piece.split(' ')[3] === `player2`){
+        // If User deselect selectPiece
+        if (parseInt(piece.split(' ')[1].split('')[3]) === selectPiecePosition[1] && parseInt(piece.split(' ')[2].split('')[3]) === selectPiecePosition[2]) {
+            // Determine row
+            newPosition.push(parseInt(piece.split(' ')[1].split('')[3]));
+
+            // Determine column
+            newPosition.push(parseInt(piece.split(' ')[2].split('')[3]));
+        }
+        // If new position is occupied position
+        else{
+            console.log(`Illegal move. You cannot move to an occupied position`);
+
+        }
     }
     else{
 
@@ -1314,7 +1349,7 @@ const moveWithCapture = () => {
                 }
                 else{
                     // Piece move to new position
-                    board[newPosition[0]][newPosition[1]] = 4;
+                    board[newPosition[0]][newPosition[1]] = 2;
 
                     // initial position becomes empty grid
                     board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
