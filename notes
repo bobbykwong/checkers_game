@@ -1,14 +1,171 @@
 *************Future changes to consider
 
 1. Add double jump function
-2. Add hints on where player can move. 
+2. Add hints on where player can move.
 3. Redo move function.
-4. Allow computer to play defensively. 
-5. Current version not mobile responsive. 
+4. Allow computer to play defensively.
+5. Current version not mobile responsive.
 
 
 
 *************Area of code to improve on
-1. movement function very messy. 
-2. Too many conditionals in place. 
-3. There may be some unanticipated moves which may cause bugs to the system. Need to think of way to prevent game from crashing when bugs occur
+1. movement function very messy.
+2. Too many conditionals in place.
+3. There may be some unanticipateds moves which may cause bugs to the system. Need to think of way to prevent game from crashing when bugs occur
+
+
+*************************** Project post portem
+
+### What to Bring
+Please answer the following questions. Take at least 30 minutes to prepare.
+
+#### Approach and Process
+
+1. What in my process and approach to this project would I do differently next time?
+
+My game deals with a whole bunch of conditionals. And with many grids, there are different possibilities depending on how the user plays. Because there were so many possibilities (many of which i did not anticipate at the offset), I tackled the problem by coding out a condition when I faced it. Because of that, I failed to take a step back at times and look at the code in an overarching perspective. If that was done, I would have probably noticed that some of the conditionals fell under the remit of other conditions. And some conditions were slight variations of others, so i could have condensed many of these into a functions.
+
+What I would attempt in the future is to take a step back and look at the entire code from time to time and ask myself whether I can do better. Because after tackling each problem head on one after another, I snowballed the problem into a very big one which required major changes that would be difficult within the time constraint. This resulted in me adding onto the problem at later stages.
+
+1. What in my process and approach to this project went well that I would repeat next time?
+ - Did more paper planning this time. Would do this more in the future. Makes the job more doable as bite sized pieces.
+ - Used the debugger tool more often in this project. Realised the usefulness of the debugger tool as opposed to simply using console.log to remedy bugs.
+
+--
+
+#### Code and Code Design
+
+1. What in my code and program design in the project would I do differently next time?
+My code right now is quite thrash. Probably has about 1500+ lines of code. Many of which could be iterated as functions. I failed to notice this because I was tackling each problem simultaneously without taking a step back to look at my code as a whole.
+
+The entire moveNoObstruction and moveWithCapture functions are pretty long-winded and require serious condensing.
+
+ // If row is even and last box, only one legal move
+                    else if( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] === 7) ){
+                        if(newPosition[1] === 5){
+                            // Piece move to new position
+                            board[newPosition[0]][newPosition[1]] = 3;
+
+                            // initial position becomes empty grid
+                            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                            // captured position becomes empty grid
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+                        }
+                    }
+                    else if ( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+                     ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ){
+                        // Piece move to new position
+                        board[newPosition[0]][newPosition[1]] = 3;
+
+                        // initial position becomes empty grid
+                        board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+                        // captured position becomes empty grid
+                        if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === 4) ) && selectPiecePosition[2]+2 === newPosition[1] ) {
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+                        }
+                        else if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 2) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === 4) ) && selectPiecePosition[2]-2 === newPosition[1] ){
+                            board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+                        }
+
+Above code shows the immense layers of conditionals lol.
+
+My CSS set up also resulted it not being mobile friendly. I should have kept that in mind while working on the CSS. When i wanted to make the game mobile friendly at a later stage, it became a very tedious task as it meant reconfiguring much of the entire sizing elements.
+
+
+1. What in my code and program design in the project went well? Is there anything I would do the same next time?
+
+Used a controller function for the mouse click event handler which houses all the functions. Ensured that the code within the controller function are all functions and not bulky code. This allowed me to look at the flow of the game clearly through the controller function.
+
+//////////////////////////////////////Controller for game play
+
+const movePiece = (event) => {
+    console.log(event.target.className);
+
+    // Determines first click to select piece
+    if (selectPiecePosition.length === 0) {
+        //Change border colour of selected piece
+
+        // store piece identity in variable
+        selectPiece(event.target.className);
+    }
+
+
+    // Determines second click to move piece to new position
+    else if ( (selectPiecePosition.length === 3) || (selectPiecePosition.length === 4) ) {
+
+        // Store new position in variable
+        storeNewPosition(event.target.className);
+
+        // If wrong clck result in no newPosition
+        if (newPosition.length === 0) {
+            selectPiecePosition = [];
+            newPosition = [];
+        }
+        else{
+            // If user deselects his option
+            if(newPosition[0] === selectPiecePosition[1] && newPosition[1] === selectPiecePosition[2]){
+                selectPiecePosition = [];
+                newPosition = [];
+
+            }
+            else{
+                if (Math.abs(newPosition[0]-selectPiecePosition[1]) < 2) {
+                    // If no obstruction.
+                    moveNoObstruction();
+                }
+                else{
+                    // If obstruction,
+                    moveWithCapture();
+                }
+
+                // display new Board
+                displayPieces();
+
+                // Check win condition
+                checkWin()
+                if (winState) {
+                    // Blur board background
+                    const uiBoard = document.querySelector('.board');
+                    uiBoard.classList.add('blur');
+
+                    // Add restart game button
+                    addRestartButton();
+                }
+
+                // If no move was made
+                else if(board === checkBoard){
+                    console.log('no move was made');
+                    selectPiecePosition = [];
+                    newPosition = [];
+
+                }
+
+                // Reset selectPiecePosition and New Position for next move.
+                else{
+                    checkBoard = board;
+
+                    selectPiecePosition = [];
+                    newPosition = [];
+
+                    // change player
+                    changePlayer();
+                }
+            }
+        }
+    }
+}
+
+
+  For each, please include code examples.
+  1. Code snippet up to 20 lines.
+  2. Code design documents or architecture drawings / diagrams.
+
+#### WDI Unit 1 Post Mortem
+1. What habits did I use during this unit that helped me?
+ - Sheer willpower and enjoyment of working on the problem at hand.
+2. What habits did I have during this unit that I can improve on?
+ - Taking time out for reflection even when time doesn't seem to be on my side.
+3. How is the overall level of the course during this unit? (instruction, course materials, etc.)
+ - good.
