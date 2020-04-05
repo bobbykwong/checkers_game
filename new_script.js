@@ -97,7 +97,7 @@ const movePiece = (event) => {
             }
             else{
                 if (Math.abs(newPosition[0]-selectPiecePosition[1]) < 2) {
-                    if (selectPiecePosition[0] === "king1" || selectPiecePosition[0] === "king2" ){
+                    if (selectPiecePosition[3] === "king1" || selectPiecePosition[3] === "king2" ){
                         // If no obstruction.
                         kingMoveNoObstruction();
                     }
@@ -107,11 +107,13 @@ const movePiece = (event) => {
                     }
                 }
                 else{
-                    if (selectPiecePosition[0] === "king1" || selectPiecePosition[0] === "king2") {
+                    if (selectPiecePosition[3] === "king1" || selectPiecePosition[3] === "king2") {
                         kingMoveWithCapture();
                     }
-                    // If obstruction,
-                    // moveWithCapture();
+                    else if (selectPiecePosition[0] === "player1" || selectPiecePosition[0] === "player2"){
+                        // If obstruction.
+                        moveWithCapture();
+                    }
                 }
 
                 // display new Board
@@ -546,7 +548,7 @@ const moveNoObstruction = () => {
     // If new position changes piece to king
     else if (newPosition[0] === 7 || newPosition[0] === 0) {
         // piece becomes king
-        newPosition[0][1] = playerType.king;
+        board[newPosition[0]][newPosition[1]] = playerType.king;
 
         // initial position becomes empty grid
         board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
@@ -568,10 +570,10 @@ const kingMoveNoObstruction = () => {
 
     // Determine player object
     let playerType;
-    if (selectPiecePosition[0] === 'king1') {
+    if (selectPiecePosition[3] === 'king1') {
         playerType = king1;
     }
-    else if (selectPiecePosition[0] === 'king2') {
+    else if (selectPiecePosition[3] === 'king2') {
         playerType = king2;
     }
 
@@ -600,15 +602,96 @@ const kingMoveNoObstruction = () => {
 /////////////////////////////////
 ///////////////Move with capture
 
+const moveWithCapture = () => {
+    // Determine player object
+    let playerType;
+    if (selectPiecePosition[0] === 'player1') {
+        playerType = player1;
+    }
+    else if (selectPiecePosition[0] === 'player2') {
+        playerType = player2;
+    }
+
+    // If new position moves backwards, illegal move until become king
+    if((selectPiecePosition[0] === "player1" && (newPosition[0] - selectPiecePosition[1]) < 0) ||
+        (selectPiecePosition[0] === "player2" && (newPosition[0] - selectPiecePosition[1]) > 0)
+        ){
+        console.log(`Illegal move. Cannot move backwards until Piece becomes king`);
+    }
+    // If new position more than 1 row from previous position, illegal move
+    else if ( Math.abs(newPosition[0] - selectPiecePosition[1]) > 2 ){
+        console.log(`Illegal move. Can only move into grid after opponent grid `);
+    }
+    // If new position more than 2 rows, illegal move
+    else if (Math.abs(newPosition[0] - selectPiecePosition[1]) > 2) {
+        console.log('illegal move, cannot move more than 2 rows');
+    }
+    // If new position more than 2 columns, illegal move
+    else if (Math.abs(newPosition[1] - selectPiecePosition[2]) > 2) {
+        console.log('illegal move');
+    }
+
+    else if ( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === playerType.opponentPiece) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === playerType.opponentKing) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+     ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === playerType.opponentPiece) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === playerType.opponentKing) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) ) ||
+     ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === playerType.opponentPiece) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === playerType.opponentKing) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
+     ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === playerType.opponentPiece) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === playerType.opponentKing) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) )
+
+        ){
+        // If piece captures opponent piece and becomes king
+        if (newPosition[0] === 7 || newPosition[0] === 0) {
+            // piece becomes king
+            board[newPosition[0]][newPosition[1]] = playerType.king;
+
+            // initial position becomes empty grid
+            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+            if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === playerType.opponentPiece) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === playerType.opponentKing) ) && selectPiecePosition[2]+2 === newPosition[1] )  {
+            board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+            }
+            else if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === playerType.opponentPiece) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === playerType.opponentKing) ) && selectPiecePosition[2]-2 === newPosition[1]  ){
+                board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+            }
+            else if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === playerType.opponentPiece) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === playerType.opponentKing) ) && selectPiecePosition[2]+2 === newPosition[1] )  {
+                board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
+            }
+            else if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === playerType.opponentPiece) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === playerType.opponentKing) ) && selectPiecePosition[2]-2 === newPosition[1]  ){
+                board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
+            }
+        }
+        else{
+            // Piece move to new position
+            board[newPosition[0]][newPosition[1]] = playerType.value;
+
+            // initial position becomes empty grid
+            board[selectPiecePosition[1]][selectPiecePosition[2]] = 0;
+
+            // captured position becomes empty grid
+            if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === playerType.opponentPiece) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === playerType.opponentKing) ) && selectPiecePosition[2]+2 === newPosition[1] )  {
+                board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] = 0;
+            }
+            else if ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === playerType.opponentPiece) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === playerType.opponentKing) ) && selectPiecePosition[2]-2 === newPosition[1]  ){
+                board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] = 0;
+            }
+            else if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === playerType.opponentPiece) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] === playerType.opponentKing) ) && selectPiecePosition[2]+2 === newPosition[1] )  {
+                board[selectPiecePosition[1]-1][selectPiecePosition[2]+1] = 0;
+            }
+            else if ( ( (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === playerType.opponentPiece) || (board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] === playerType.opponentKing) ) && selectPiecePosition[2]-2 === newPosition[1]  ){
+                board[selectPiecePosition[1]-1][selectPiecePosition[2]-1] = 0;
+            }
+        }
+    }
+}
+
+
 // If king
 // King movement
 const kingMoveWithCapture = () => {
     // Determine player object
     let playerType;
-    if (selectPiecePosition[0] === 'king1') {
+    if (selectPiecePosition[3] === 'king1') {
         playerType = king1;
     }
-    else if (selectPiecePosition[0] === 'king2') {
+    else if (selectPiecePosition[3] === 'king2') {
         playerType = king2;
     }
 
@@ -616,6 +699,7 @@ const kingMoveWithCapture = () => {
     if (Math.abs(newPosition[0] - selectPiecePosition[1]) > 2) {
         console.log('illegal move, cannot move more than 2 rows');
     }
+    // If new position more than 2 columns, illegal move
     else if (Math.abs(newPosition[1] - selectPiecePosition[2]) > 2) {
         console.log('illegal move');
     }
