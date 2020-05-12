@@ -71,7 +71,7 @@ let playerDisplayName = "";
 let board = [];
 let checkBoard = [];
 let winState = false;
-let pieceMoved = false;
+let pieceMoved = true;
 
 ///////////////////////////////////////
 //////////////////////////////////////
@@ -135,55 +135,53 @@ const movePiece = (event) => {
                     }
                 }
 
+                if (pieceMoved === true) {
+                    // display new Board
+                    displayPieces();
 
-                // display new Board
-                displayPieces();
+                    // Check win condition
+                    checkWin()
+                    if (winState) {
+                        // Blur board background
+                        const uiBoard = document.querySelector('.board');
+                        uiBoard.classList.add('blur');
 
-                // Check win condition
-                checkWin()
-                if (winState) {
-                    // Blur board background
-                    const uiBoard = document.querySelector('.board');
-                    uiBoard.classList.add('blur');
-
-                    // Add restart game button
-                    addRestartButton();
-                }
-
-                // If no move was made
-                else if(board === checkBoard){
-                    console.log('no move was made');
-                    selectPiecePosition = [];
-                    newPosition = [];
-
-                }
-
-                // Reset selectPiecePosition and New Position for next move.
-                else{
-                    checkBoard = board;
-
-                    selectPiecePosition = [];
-                    newPosition = [];
-
-                    // If single player game, activate bot auto moves
-                    if (playerOneName === "opponentBot"){
-                        activateBotMove()
+                        // Add restart game button
+                        addRestartButton();
                     }
-                    // else change player turn
+
+                    // Reset selectPiecePosition and New Position for next move.
                     else{
-                        // change player
-                        changePlayer();
+                        selectPiecePosition = [];
+                        newPosition = [];
+
+                        // If single player game, activate bot auto moves
+                        if (playerOneName === "opponentBot"){
+                            activateBotMove()
+                        }
+                        // else change player turn
+                        else{
+                            // change player
+                            changePlayer();
+                        }
                     }
+                }
+                else{
+                    selectPiecePosition = [];
+                    newPosition = [];
                 }
             }
         }
     }
 }
 
+
 const noMoveMade = () => {
     selectPiecePosition = [];
     newPosition = [];
     pieceMoved = false;
+
+    console.log('no move made')
 }
 
 
@@ -631,11 +629,13 @@ const moveNoObstruction = () => {
         (selectPiecePosition[0] === "player2" && (newPosition[0] - selectPiecePosition[1]) > 0)
         ){
         console.log(`Illegal move. Cannot move backwards until Piece becomes king`);
+        noMoveMade()
     }
 
     // If new position more than 1 column from previous position, illegal move
     else if (Math.abs(newPosition[1] - selectPiecePosition[2]) > 1) {
         console.log(`Illegal move. Cannot move more than 1 row.`);
+        noMoveMade()
     }
 
     // If new position changes piece to king
@@ -673,6 +673,7 @@ const kingMoveNoObstruction = () => {
     // If new position more than 1 column from previous position, illegal move
     if (Math.abs(newPosition[1] - selectPiecePosition[2]) > 1) {
         console.log(`Illegal move. Cannot move more than 1 row.`);
+        noMoveMade()
     }
 
     else {
@@ -710,18 +711,22 @@ const moveWithCapture = () => {
         (selectPiecePosition[0] === "player2" && (newPosition[0] - selectPiecePosition[1]) > 0)
         ){
         console.log(`Illegal move. Cannot move backwards until Piece becomes king`);
+        noMoveMade()
     }
     // If new position more than 1 row from previous position, illegal move
     else if ( Math.abs(newPosition[0] - selectPiecePosition[1]) > 2 ){
         console.log(`Illegal move. Can only move into grid after opponent grid `);
+        noMoveMade()
     }
     // If new position more than 2 rows, illegal move
     else if (Math.abs(newPosition[0] - selectPiecePosition[1]) > 2) {
         console.log('illegal move, cannot move more than 2 rows');
+        noMoveMade()
     }
     // If new position more than 2 columns, illegal move
     else if (Math.abs(newPosition[1] - selectPiecePosition[2]) > 2) {
         console.log('illegal move');
+        noMoveMade()
     }
 
     else if ( ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === playerType.opponentPiece) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === playerType.opponentKing) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
@@ -791,10 +796,12 @@ const kingMoveWithCapture = () => {
     // If new position more than 2 rows, illegal move
     if (Math.abs(newPosition[0] - selectPiecePosition[1]) > 2) {
         console.log('illegal move, cannot move more than 2 rows');
+        noMoveMade()
     }
     // If new position more than 2 columns, illegal move
     else if (Math.abs(newPosition[1] - selectPiecePosition[2]) > 2) {
         console.log('illegal move');
+        noMoveMade()
     }
     else if (( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === playerType.opponentPiece) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]+1] === playerType.opponentKing) ) && (selectPiecePosition[2] + 2 === newPosition[1]) ) ||
         ( ( (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === playerType.opponentPiece) || (board[selectPiecePosition[1]+1][selectPiecePosition[2]-1] === playerType.opponentKing) ) && (selectPiecePosition[2] - 2 === newPosition[1] ) )
