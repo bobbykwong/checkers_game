@@ -183,6 +183,7 @@ const movePiece = (event) => {
 const noMoveMade = () => {
     selectPiecePosition = [];
     newPosition = [];
+    pieceMoved = false;
 }
 
 
