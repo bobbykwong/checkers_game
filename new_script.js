@@ -71,7 +71,7 @@ let playerDisplayName = "";
 let board = [];
 let checkBoard = [];
 let winState = false;
-
+let pieceMoved = false;
 
 ///////////////////////////////////////
 //////////////////////////////////////
@@ -135,6 +135,7 @@ const movePiece = (event) => {
                     }
                 }
 
+
                 // display new Board
                 displayPieces();
 
@@ -165,7 +166,7 @@ const movePiece = (event) => {
                     newPosition = [];
 
                     // If single player game, activate bot auto moves
-                    if (playerTwoName === "opponentBot"){
+                    if (playerOneName === "opponentBot"){
                         activateBotMove()
                     }
                     // else change player turn
@@ -177,6 +178,11 @@ const movePiece = (event) => {
             }
         }
     }
+}
+
+const noMoveMade = () => {
+    selectPiecePosition = [];
+    newPosition = [];
 }
 
 
@@ -192,7 +198,7 @@ const startSinglePlayerGame = () => {
     const choosePlayerDisplay = document.querySelector('.choose-players');
     choosePlayerDisplay.style.display = 'none';
 
-    playerTwoName = "opponentBot"
+    playerOneName = "opponentBot"
 
     // Create board on DOM
     createBoard();
@@ -209,8 +215,36 @@ const singlePlayerButton = document.querySelector('.single-player');
 singlePlayerButton.addEventListener('click', startSinglePlayerGame);
 
 
+/************************
+========================
+Logic for opponent bot
+========================
+************************/
+
+/*
+Conditions for bot
+    1. Bot is always player 1
+
+    2. Priority for Bot moves
+        1) If there is a capture, bot makes the capture
+
+        2) If bot can avoid capture, bot makes the move
+
+        3) If bot can become king, bot makes the move
+
+        4) If no better moves, bot makes a random legal move
+*/
+
+
 const activateBotMove = () => {
-    console.log('it works');
+    // Check if any available pices to capture
+    for (var q=0; q<8; q++){
+        for (var w=0; w<8; w++){
+            if ((board[q][w] === 1) && ((board[q+1][w-1] === 2) || (board[q+1][w+1] === 2))){
+                console.log('woah it works');
+            }
+        }
+    }
 }
 
 ////////////////////////////////////////////////
