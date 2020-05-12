@@ -152,15 +152,39 @@ const movePiece = (event) => {
 
                     // Reset selectPiecePosition and New Position for next move.
                     else{
-                        selectPiecePosition = [];
-                        newPosition = [];
 
                         // If single player game, activate bot auto moves
                         if (playerOneName === "opponentBot"){
+
                             activateBotMove()
+
+                            if (pieceMoved === true) {
+                                // display new Board
+                                displayPieces();
+
+                                // Check win condition
+                                checkWin()
+                                if (winState) {
+                                    // Blur board background
+                                    const uiBoard = document.querySelector('.board');
+                                    uiBoard.classList.add('blur');
+
+                                    // Add restart game button
+                                    addRestartButton();
+                                }
+                                selectPiecePosition = [];
+                                newPosition = [];
+                            }
+                            else{
+                                selectPiecePosition = [];
+                                newPosition = [];
+                            }
+
                         }
                         // else change player turn
                         else{
+                            selectPiecePosition = [];
+                            newPosition = [];
                             // change player
                             changePlayer();
                         }
@@ -236,11 +260,25 @@ Conditions for bot
 
 
 const activateBotMove = () => {
-    // Check if any available pices to capture
+    // Check surroundings of bots based on piority listed above
     for (var q=0; q<8; q++){
         for (var w=0; w<8; w++){
-            if ((board[q][w] === 1) && ((board[q+1][w-1] === 2) || (board[q+1][w+1] === 2))){
-                console.log('woah it works');
+            // Check if any available pices to capture
+            if ( (board[q][w] === 1) &&
+                ( ((board[q+1][w-1] === 2) && (board[q+2][w-2] === 0))
+                ||  ((board[q+1][w+1] === 2) && (board[q+2][w+2] === 0)) ) ) {
+
+                // Give opponent bot select position and new position
+                selectPiecePosition = ["player1", q, w]
+
+                if ((board[q+1][w-1] === 2)) {
+                    newPosition = [q+2, w-2]
+                    moveWithCapture()
+                }
+                else if (board[q+1][w+1] === 2){
+                    newPosition = [q+2, w+2]
+                    moveWithCapture()
+                }
             }
         }
     }
