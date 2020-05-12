@@ -2,11 +2,6 @@
 
 ///////////////////////////////////////Start Game
 
-// const singlePlayerButton = document.querySelector('.single-player');
-// singlePlayerButton.addEventListener('click', startSinglePlayerGame);
-
-
-
 /**************************
 //////////////////////////
 Multiplayer Start Game
@@ -85,7 +80,7 @@ let winState = false;
 //////////////////////////////////////
 /////////////////////////////////////
 //////////////////////////////////////
-// Controller for game play
+// Controller for multiplayer game play
 
 
 
@@ -169,8 +164,15 @@ const movePiece = (event) => {
                     selectPiecePosition = [];
                     newPosition = [];
 
-                    // change player
-                    changePlayer();
+                    // If single player game, activate bot auto moves
+                    if (playerTwoName === "opponentBot"){
+                        activateBotMove()
+                    }
+                    // else change player turn
+                    else{
+                        // change player
+                        changePlayer();
+                    }
                 }
             }
         }
@@ -178,6 +180,38 @@ const movePiece = (event) => {
 }
 
 
+
+/*******************************
+===============================
+Controller for single player game play
+=================================
+******************************/
+
+// Choose single player
+const startSinglePlayerGame = () => {
+    const choosePlayerDisplay = document.querySelector('.choose-players');
+    choosePlayerDisplay.style.display = 'none';
+
+    playerTwoName = "opponentBot"
+
+    // Create board on DOM
+    createBoard();
+
+    // Create virtual board tp keep track of pieces.
+    createVirtualBoard();
+
+    // Display pieces on board
+    displayPieces();
+}
+
+const singlePlayerButton = document.querySelector('.single-player');
+
+singlePlayerButton.addEventListener('click', startSinglePlayerGame);
+
+
+const activateBotMove = () => {
+    console.log('it works');
+}
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
