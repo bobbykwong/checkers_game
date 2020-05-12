@@ -18,7 +18,7 @@ main{
 	align-items: center;
 }
 
-.start-attributes{
+.choose-players{
 	background-image: url('./images/wood.jpeg');
 	display: flex;
 	justify-content: center;
@@ -26,6 +26,29 @@ main{
 	padding: 10px;
 	border: 10px solid #8b3f1bc9;
   border-style: ridge;
+}
+
+.start-attributes{
+	background-image: url('./images/wood.jpeg');
+	display: none;
+	justify-content: center;
+	flex-direction: column;
+	padding: 10px;
+	border: 10px solid #8b3f1bc9;
+  border-style: ridge;
+}
+
+.single-player{
+	height: 50px;
+	width: 200px;
+	font-size: 25px;
+	margin-bottom: 4%;
+}
+
+.two-player{
+	height: 50px;
+	width: 200px;
+	font-size: 25px;
 }
 
 .name{
@@ -54,10 +77,6 @@ main{
 	height: 40px;
 	width: 300px;
 	margin: 10px 0;
-}
-
-.hide{
-	display: none;
 }
 
 .blur{

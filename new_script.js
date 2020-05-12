@@ -2,6 +2,30 @@
 
 ///////////////////////////////////////Start Game
 
+// const singlePlayerButton = document.querySelector('.single-player');
+// singlePlayerButton.addEventListener('click', startSinglePlayerGame);
+
+
+
+/**************************
+//////////////////////////
+Multiplayer Start Game
+/////////////////////////
+**************************/
+
+const addProfile = (event) => {
+    const choosePlayerDisplay = document.querySelector('.choose-players');
+    choosePlayerDisplay.style.display = 'none';
+
+    const startAttributes = document.querySelector('.start-attributes');
+    startAttributes.style.display = 'flex';
+}
+
+// Choose two player vs
+const twoPlayerButton = document.querySelector('.two-player');
+twoPlayerButton.addEventListener('click', addProfile);
+
+
 const addNames = (event) => {
     // Get Player name
     playerOneName = document.querySelector('.name-one').value;
@@ -15,7 +39,7 @@ const addNames = (event) => {
 const startGame = (event) => {
     // hide start attributes
     const startAttributes = document.querySelector('.start-attributes');
-    startAttributes.classList.add('hide');
+    startAttributes.style.display = 'none';
 
     // Show Player turn
     const main = document.querySelector('main');
